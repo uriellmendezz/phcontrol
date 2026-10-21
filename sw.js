@@ -6,7 +6,7 @@
  * - Apps Script: nunca se cachea (los datos viven en IndexedDB).
  * Al publicar cambios, subí VERSION para que los iPhones reciban la actualización.
  */
-const VERSION = 'v1.2.0';
+const VERSION = 'v1.2.1';
 const SHELL = `phcontrol-shell-${VERSION}`;
 const RUNTIME = 'phcontrol-runtime';
 

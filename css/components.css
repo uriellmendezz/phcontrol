@@ -213,7 +213,11 @@ body.kb-open .form-actions { position: static; }
 .photo-box img { width: 100%; height: 100%; object-fit: cover; }
 .photo-box input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .photo-box .photo-remove { position: absolute; top: 8px; right: 8px; background: var(--surface); }
-.photo-placeholder { display: grid; justify-items: center; gap: 6px; }
+.photo-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: var(--sp-2); }
+.photo-actions .btn { position: relative; overflow: hidden; padding: 0 var(--sp-2); }
+/* Input oculto visualmente pero activo (iOS no abre el selector si el input tiene display: none) */
+.photo-file { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.photo-placeholder { display: grid; justify-items: center; gap: 6px; padding: 0 var(--sp-3); text-align: center; }
 .photo-placeholder svg { width: 28px; height: 28px; }
 .img-ph { background: var(--surface-2); border-radius: var(--radius-sm); }
 
