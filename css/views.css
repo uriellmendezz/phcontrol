@@ -6,11 +6,10 @@
 .hero {
   position: relative; overflow: hidden;
   margin: var(--sp-2) 0 0; border-radius: var(--radius-lg);
-  background: var(--brand-steel) url("../assets/img/ondas.svg") center / cover no-repeat;
+  background: var(--brand-blue) url("../assets/img/ondas.svg") center / cover no-repeat;
   color: var(--brand-white);
   min-height: 148px;
 }
-.hero-layer { position: absolute; inset: 0; background: var(--overlay); } /* capa Navy 30 % */
 .hero-inner { position: relative; padding: var(--sp-6) var(--sp-5); }
 .hero-kicker { font-size: var(--fs-sm); font-weight: var(--fw-semibold); opacity: .95; }
 .hero-title { font-size: var(--fs-3xl); margin-top: 4px; }
@@ -187,8 +186,7 @@
   width: 1080px; background: #FFFFFF; color: #192F41;
   font-family: var(--font); font-size: 30px; line-height: 1.35;
 }
-.sc-head { position: relative; background-color: #68CBDE; background-size: cover; background-position: center; color: #fff; }
-.sc-head-layer { position: absolute; inset: 0; background: rgba(25, 47, 65, .30); }
+.sc-head { position: relative; background-color: #0084B9; background-size: cover; background-position: center; color: #fff; }
 .sc-head-inner { position: relative; padding: 64px 72px 56px; }
 .sc-logo { width: 300px; height: auto; margin-bottom: 40px; }
 .sc-kicker { font-size: 26px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .95; }
@@ -197,16 +195,18 @@
 .sc-body { padding: 48px 72px 24px; }
 .sc-meta { display: flex; flex-direction: column; gap: 4px; color: #4A5D6D; font-size: 28px; }
 .sc-section-title { font-size: 24px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6F8291; margin: 44px 0 18px; }
-.sc-params { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.sc-params { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .sc-param { background: #F3F7FB; border-radius: 28px; padding: 28px; }
-.sc-param-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.sc-param-name { font-weight: 600; font-size: 26px; color: #4A5D6D; }
-.sc-param-val { font-weight: 700; font-size: 48px; }
+.sc-param { min-width: 0; }
+.sc-param-name { font-weight: 600; font-size: 26px; color: #4A5D6D; white-space: nowrap; }
+/* Valor y unidad en una sola línea: la unidad más chica para que "0,5 ppm" nunca se corte */
+.sc-param-val { font-weight: 700; font-size: 52px; line-height: 1.1; white-space: nowrap; margin-top: 4px; }
+.sc-unit { font-size: 26px; font-weight: 600; color: #4A5D6D; margin-left: 8px; }
 .sc-track { position: relative; height: 14px; border-radius: 7px; background: #E4ECF3; margin: 18px 0 14px; }
 .sc-band { position: absolute; top: 0; bottom: 0; background: #BFE7DF; border-radius: 7px; }
 .sc-mark { position: absolute; top: -8px; width: 8px; height: 30px; border-radius: 4px; transform: translateX(-4px); background: #192F41; }
 .sc-mark.ok { background: #1E8C7E; } .sc-mark.warn { background: #C98A12; } .sc-mark.danger { background: #C2413B; }
-.sc-param-foot { display: flex; justify-content: space-between; align-items: center; font-size: 22px; color: #6F8291; }
+.sc-param-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 22px; color: #6F8291; white-space: nowrap; }
 .sc-chip { padding: 4px 16px; border-radius: 999px; font-weight: 700; font-size: 22px; }
 .sc-chip.ok { background: #DDF2EE; color: #1E8C7E; } .sc-chip.warn { background: #FBEFD6; color: #8A5A00; } .sc-chip.danger { background: #F9E1DF; color: #C2413B; }
 .sc-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -217,5 +217,23 @@
 .sc-list li { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 2px solid #E4ECF3; font-size: 28px; }
 .sc-list li span:last-child { font-weight: 700; }
 .sc-obs { font-size: 28px; white-space: pre-wrap; }
-.sc-foot { margin-top: 32px; padding: 36px 72px 48px; background: #192F41; color: #fff; font-size: 26px; }
+.sc-foot { margin-top: 32px; padding: 40px 72px 48px; background: #192F41; color: #fff; font-size: 26px; display: flex; align-items: center; gap: 40px; }
+.sc-foot-logo { width: 220px; height: auto; flex: none; }
+.sc-foot-text { min-width: 0; }
 .sc-lema { color: #68CBDE; font-weight: 600; margin-top: 6px; }
+
+/* ---------- Mapa de clientes ---------- */
+.map-box {
+  position: relative; margin-top: var(--sp-3);
+  height: calc(100dvh - var(--header-h) - var(--tabbar-h) - var(--safe-top) - var(--safe-bottom) - 190px);
+  min-height: 320px;
+  border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
+  background: var(--surface-2);
+  z-index: 0; /* los paneles de Leaflet no pasan por encima del header ni de la barra */
+}
+.map-box .error-state { position: absolute; inset: 0; align-content: center; }
+.map-pop { display: grid; gap: 4px; font-family: var(--font); font-size: 14px; color: #192F41; }
+.map-pop strong { font-size: 16px; }
+.map-pop-actions { display: flex; gap: 16px; margin-top: 6px; }
+.map-pop-actions a { color: #0084B9; font-weight: 700; text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
+.leaflet-container { font-family: var(--font); }

@@ -181,7 +181,14 @@ export async function fullResync() {
 
 export async function getQueue() { return idb.getAll('cola'); }
 
-export function initSync() {
+/** Sube cuando cambia cómo se interpretan los datos: obliga a bajar todo de nuevo una vez. */
+const SYNC_VERSION = 2;
+
+export async function initSync() {
+  if ((await idb.kvGet('syncVersion', 1)) < SYNC_VERSION) {
+    await idb.kvDel('lastPull');
+    await idb.kvSet('syncVersion', SYNC_VERSION);
+  }
   window.addEventListener('online', () => { refreshPending(); schedule(500); });
   window.addEventListener('offline', () => refreshPending());
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') schedule(800); });

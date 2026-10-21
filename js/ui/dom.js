@@ -33,6 +33,9 @@ export function safeUrl(url) {
   return '#';
 }
 
+/** Contenedor que scrollea (el body no scrollea; ver index.html). */
+export const scroller = () => document.getElementById('scroller');
+
 export const $ = (sel, root = document) => root.querySelector(sel);
 export const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 

@@ -1,6 +1,6 @@
 /**
  * Esquema del lado cliente. Debe coincidir con SCHEMA de apps-script/Code.gs.
- * `sheet` = nombre de la pestaña. Tipos: s (texto), n (número), b (booleano), j (JSON).
+ * `sheet` = nombre de la pestaña. Tipos: s (texto), n (número), j (JSON), d (fecha AAAA-MM-DD), t (hora HH:MM).
  */
 export const ENTITIES = {
   clientes: {
@@ -13,11 +13,11 @@ export const ENTITIES = {
   },
   visitas: {
     sheet: 'Visitas',
-    fields: { cliente_id: 's', pileta_id: 's', agenda_id: 's', fecha: 's', hora: 's', ph: 'n', cloro: 'n', alcalinidad: 'n', estabilizante: 'n', productos: 'j', foto_antes: 's', foto_despues: 's', observaciones: 's', monto: 'n', estado_pago: 's' }
+    fields: { cliente_id: 's', pileta_id: 's', agenda_id: 's', fecha: 'd', hora: 't', ph: 'n', cloro: 'n', alcalinidad: 'n', estabilizante: 'n', productos: 'j', foto_antes: 's', foto_despues: 's', observaciones: 's', monto: 'n', estado_pago: 's' }
   },
   agenda: {
     sheet: 'Agenda',
-    fields: { cliente_id: 's', pileta_id: 's', serie_id: 's', visita_id: 's', fecha: 's', hora: 's', duracion: 'n', recurrencia: 's', estado: 's', notas: 's' }
+    fields: { cliente_id: 's', pileta_id: 's', serie_id: 's', visita_id: 's', fecha: 'd', hora: 't', duracion: 'n', recurrencia: 's', estado: 's', notas: 's' }
   },
   stock: {
     sheet: 'Stock',
@@ -25,11 +25,11 @@ export const ENTITIES = {
   },
   ventas: {
     sheet: 'Ventas',
-    fields: { fecha: 's', cliente_id: 's', producto_id: 's', producto: 's', cantidad: 'n', monto: 'n', estado_pago: 's' }
+    fields: { fecha: 'd', cliente_id: 's', producto_id: 's', producto: 's', cantidad: 'n', monto: 'n', estado_pago: 's' }
   },
   compras: {
     sheet: 'Compras',
-    fields: { fecha: 's', producto_id: 's', producto: 's', cantidad: 'n', costo_total: 'n' }
+    fields: { fecha: 'd', producto_id: 's', producto: 's', cantidad: 'n', costo_total: 'n' }
   },
   config: {
     sheet: 'Config',
@@ -51,6 +51,13 @@ export function normalize(entity, rec) {
     else if (t === 'j') {
       if (typeof v === 'string' && v !== '') { try { out[f] = JSON.parse(v); } catch { out[f] = null; } }
       else out[f] = v === '' ? null : v;
+    } else if (t === 't') {
+      // Sheets a veces devuelve una hora como fecha (1899-12-30): solo se acepta HH:MM.
+      const m = String(v).match(/^(\d{1,2}):(\d{2})/);
+      out[f] = m ? `${m[1].padStart(2, '0')}:${m[2]}` : '';
+    } else if (t === 'd') {
+      const m = String(v).match(/^(\d{4})-(\d{2})-(\d{2})/);
+      out[f] = m && Number(m[1]) >= 2000 ? m[0] : '';
     } else out[f] = String(v);
   }
   out.eliminado = rec.eliminado === true || rec.eliminado === 'TRUE' || rec.eliminado === 'true';

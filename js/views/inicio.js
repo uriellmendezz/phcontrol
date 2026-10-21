@@ -33,7 +33,6 @@ export default async function inicio(root, ctx) {
 
     mount(root, html`
       <section class="hero" aria-label="Resumen del día">
-        <div class="hero-layer"></div>
         <div class="hero-inner">
           <p class="hero-kicker">${capFirst(longDate(t))}</p>
           <h1 class="hero-title">${greeting()}${cfg().negocio.titular ? `, ${cfg().negocio.titular.split(' ')[0]}` : ''}</h1>

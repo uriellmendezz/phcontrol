@@ -1,4 +1,4 @@
-import { html, mount, on } from '../ui/dom.js';
+import { html, mount, on, scroller } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
 import { quickActions } from '../ui/components.js';
 import { all, get } from '../data/store.js';
@@ -56,6 +56,7 @@ function lanes(evs) {
 export default async function calendario(root, ctx) {
   let vista = ctx.query.vista || (await idb.kvGet('cal:vista', 'semana'));
   let fecha = ctx.query.fecha || today();
+  let needScroll = true;
   const cfg = settings().agenda;
   const H0 = Number(cfg.hora_inicio) || 7;
   const H1 = Number(cfg.hora_fin) || 21;
@@ -166,20 +167,25 @@ export default async function calendario(root, ctx) {
       <div class="cal-body" id="cal-body">
         ${vista === 'mes' ? monthGrid(r, evs) : hourGrid(days, evs, vista === 'semana')}
         ${vista !== 'mes' && !evs.length ? html`<p class="muted small" style="margin-top:12px;text-align:center">Sin visitas en este período. Tocá un horario para agendar.</p>` : ''}
-      </div>
-      <a class="fab" href="#/agenda/nueva?fecha=${fecha}" aria-label="Programar visita">${icon('plus')}</a>`);
-    // Lleva la grilla cerca de la hora actual o del primer evento.
+      </div>`);
+    // El botón "+" va fuera de la vista (en #fab-root) para quedar siempre visible sobre la barra inferior.
+    mount(document.getElementById('fab-root'), html`<a class="fab" href="#/agenda/nueva?fecha=${fecha}" aria-label="Programar visita">${icon('plus')}</a>`);
+    // Lleva la grilla cerca del primer evento (solo al cambiar de período o vista, no en cada sincronización).
     const body = root.querySelector('.tg-body');
-    if (body) {
+    if (body && needScroll) {
       const first = evs.filter((e) => days.includes(e.fecha))[0];
       const ph = vista === 'semana' ? 52 : 64;
       const h = first ? timeToMin(first.hora) / 60 : 8;
-      window.scrollTo({ top: Math.max(0, (h - H0 - 0.5) * ph + body.offsetTop - 120), behavior: 'instant' });
+      const sc = scroller();
+      const bodyTop = body.getBoundingClientRect().top - sc.getBoundingClientRect().top + sc.scrollTop;
+      sc.scrollTo({ top: Math.max(0, (h - H0 - 0.5) * ph + bodyTop - 120), behavior: 'instant' });
     }
+    needScroll = false;
     history.replaceState(null, '', `#/calendario?vista=${vista}&fecha=${fecha}`);
   }
 
   function shift(dir) {
+    needScroll = true;
     fecha = vista === 'dia' ? addDays(fecha, dir) : vista === 'semana' ? addDays(fecha, 7 * dir) : addMonths(fecha, dir);
     const body = root.querySelector('#cal-body');
     body?.classList.add(dir > 0 ? 'slide-l' : 'slide-r');
@@ -214,9 +220,9 @@ export default async function calendario(root, ctx) {
   }
 
   on(root, 'click', '[data-nav]', (e, b) => shift(Number(b.dataset.nav)));
-  on(root, 'click', '[data-today]', () => { fecha = today(); render(); });
-  on(root, 'click', '[data-vista]', (e, b) => { vista = b.dataset.vista; idb.kvSet('cal:vista', vista); render(); });
-  on(root, 'click', '[data-goto]', (e, b) => { fecha = b.dataset.goto; vista = 'dia'; render(); });
+  on(root, 'click', '[data-today]', () => { fecha = today(); needScroll = true; render(); });
+  on(root, 'click', '[data-vista]', (e, b) => { vista = b.dataset.vista; needScroll = true; idb.kvSet('cal:vista', vista); render(); });
+  on(root, 'click', '[data-goto]', (e, b) => { fecha = b.dataset.goto; vista = 'dia'; needScroll = true; render(); });
   on(root, 'click', '[data-pick]', (e, b) => { fecha = b.dataset.pick; render(); });
   on(root, 'click', '[data-ev]', (e, b) => { const [k, id] = b.dataset.ev.split(':'); openEvent(k, id); });
   on(root, 'click', '[data-slot]', (e, b) => { const [d, h] = b.dataset.slot.split('|'); navigate(`#/agenda/nueva?fecha=${d}&hora=${h}`); });

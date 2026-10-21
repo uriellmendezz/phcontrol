@@ -31,11 +31,12 @@ export default async function clienteDetalle(root, ctx) {
         <div class="grow">
           <h1 class="page-title">${fullName(c)}</h1>
           <p class="page-sub">${[c.direccion, c.barrio].filter(Boolean).join(' · ') || 'Sin dirección'}</p>
-          <p style="margin-top:6px">${c.estado === 'inactivo' ? html`<span class="badge">Inactivo</span>` : html`<span class="badge ok">Activo</span>`}
+          <p style="margin-top:6px">${c.estado === 'inactivo' ? html`<span class="badge">Inactivo</span>` : c.estado === 'borrador' ? html`<span class="badge warn">Borrador</span>` : html`<span class="badge ok">Activo</span>`}
             ${c.tarifa_monto !== '' ? html`<span class="badge">${c.tarifa_tipo === 'abono' ? 'Abono' : 'Por visita'} ${money(c.tarifa_monto)}</span>` : ''}</p>
         </div>
       </div>
       ${quickActions(c)}
+      ${c.estado === 'borrador' ? html`<a class="alert warn alert-link" href="#/clientes/${c.id}/editar" style="margin-top:12px">${icon('edit')}<div class="grow"><p class="alert-title">Cliente en borrador</p><p>Faltan sus datos (teléfono, dirección, pileta). Tocá para completarlos.</p></div>${icon('chevron', 'li-chevron')}</a>` : ''}
 
       <div class="grid-2" style="margin-top:16px">
         <div class="card"><p class="stat-label">Saldo pendiente</p><p class="stat-value" style="font-size:var(--fs-xl);color:${saldo ? 'var(--danger)' : 'inherit'}">${money(saldo)}</p>

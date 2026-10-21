@@ -1,7 +1,7 @@
 import { html, mount, on, debounce, formData, fillForm, showErrors } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
-import { pageHead, clientPicker, bindClientPicker, piletaOptions, quickActions, errorState } from '../ui/components.js';
-import { get, piletasDe, remove } from '../data/store.js';
+import { pageHead, clientPicker, bindClientPicker, piletaOptions, quickActions, errorState, isNewClientRef } from '../ui/components.js';
+import { get, piletasDe, remove, ensureCliente } from '../data/store.js';
 import { settings } from '../data/settings.js';
 import { getDraft, saveDraft, clearDraft } from '../data/drafts.js';
 import { confirmDialog, sheet } from '../ui/modal.js';
@@ -100,7 +100,7 @@ export default async function agendaForm(root, ctx) {
   if (!item) bindClientPicker(form, 'cliente_id', (cl) => {
     const ps = piletasDe(cl.id);
     form.pileta_id.innerHTML = String(piletaOptions(cl.id, ps.length === 1 ? ps[0].id : ''));
-  });
+  }, { allowNew: true });
   check();
 
   form.addEventListener('submit', async (e) => {
@@ -132,8 +132,10 @@ export default async function agendaForm(root, ctx) {
         await updateOccurrence(item, patch, d.scope || 'una');
         toast(moved ? `Reprogramada para el ${fdate(d.fecha)} a las ${d.hora} h` : 'Cambios guardados');
       } else {
-        const created = await createSeries({ cliente_id: d.cliente_id, pileta_id: d.pileta_id, fecha: d.fecha, hora: d.hora, duracion: dur, recurrencia: d.recurrencia, notas: d.notas }, d.recurrencia === 'unica' ? '' : d.hasta);
-        toast(created.length > 1 ? `${created.length} visitas agendadas` : 'Visita agendada');
+        const nuevo = isNewClientRef(d.cliente_id);
+        const clienteId = await ensureCliente(d.cliente_id, 'la agenda');
+        const created = await createSeries({ cliente_id: clienteId, pileta_id: d.pileta_id, fecha: d.fecha, hora: d.hora, duracion: dur, recurrencia: d.recurrencia, notas: d.notas }, d.recurrencia === 'unica' ? '' : d.hasta);
+        toast((created.length > 1 ? `${created.length} visitas agendadas` : 'Visita agendada') + (nuevo ? '. El cliente quedó como borrador en Clientes.' : ''), { duration: nuevo ? 5000 : 3200 });
       }
       persist.cancel(); await clearDraft(draftKey);
       navigate(`#/calendario?fecha=${d.fecha}`, { replace: true });

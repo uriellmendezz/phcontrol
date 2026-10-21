@@ -9,6 +9,7 @@ export default async function mas(root) {
   const st = getStatus();
   const items = [
     { href: '#/visitas', ic: 'list', title: 'Historial de visitas', sub: 'Registros, filtros y cobros' },
+    { href: '#/mapa', ic: 'pin', title: 'Mapa de clientes', sub: 'Dónde está cada pileta' },
     { href: '#/agenda/nueva', ic: 'clock', title: 'Programar visita', sub: 'Única o recurrente' },
     { href: '#/calculadora', ic: 'calc', title: 'Calculadora de químicos', sub: 'Corrección, agua verde, puesta a punto' },
     { href: '#/stock', ic: 'box', title: 'Stock y ventas', sub: bajos ? `${bajos} producto(s) con stock bajo` : 'Inventario, compras y ventas', badge: bajos ? 'warn' : '' },

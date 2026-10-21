@@ -18,6 +18,7 @@ const ROUTES = [
   ['/calendario', 'calendario'],
   ['/clientes', 'clientes'],
   ['/clientes/nuevo', 'cliente-form'],
+  ['/mapa', 'mapa'],
   ['/clientes/:id', 'cliente-detalle'],
   ['/clientes/:id/editar', 'cliente-form'],
   ['/piletas/nueva', 'pileta-form'],
@@ -38,7 +39,7 @@ const TABS = [
   { href: '#/inicio', label: 'Inicio', ic: 'home', match: ['inicio'] },
   { href: '#/calendario', label: 'Agenda', ic: 'calendar', match: ['calendario', 'agenda'] },
   { href: '#/visitas/nueva', label: 'Registrar', ic: 'plus', match: ['visitas/nueva'], main: true },
-  { href: '#/clientes', label: 'Clientes', ic: 'users', match: ['clientes', 'piletas'] },
+  { href: '#/clientes', label: 'Clientes', ic: 'users', match: ['clientes', 'piletas', 'mapa'] },
   { href: '#/mas', label: 'Más', ic: 'more', match: ['mas', 'visitas', 'calculadora', 'stock', 'ventas', 'teorico', 'ajustes'] }
 ];
 
@@ -97,11 +98,12 @@ async function render() {
   const back = document.getElementById('btn-back');
   back.hidden = ROOTS.has(m.pattern);
 
+  document.getElementById('fab-root').replaceChildren(); // botones flotantes de la pantalla anterior
   const old = viewEl();
   const root = old.cloneNode(false);
   root.classList.add('view-enter');
   old.replaceWith(root);
-  window.scrollTo(0, 0);
+  document.getElementById('scroller').scrollTo(0, 0);
   mount(root, skeletonPage());
 
   const ctx = {

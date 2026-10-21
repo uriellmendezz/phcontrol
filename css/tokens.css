@@ -19,7 +19,8 @@
   --brand-steel: #68CBDE;
   --brand-grade: #CDDEEC;
   --brand-white: #FFFFFF;
-  --brand-logo-bg: #0084B9; /* solo icono y splash */
+  --brand-blue: #0084B9;    /* color principal de la marca (fondo del logo) */
+  --brand-logo-bg: var(--brand-blue);
 
   /* Semánticos derivados (ok / atención / peligro) */
   --ok: #1E8C7E;          /* verde azulado */
@@ -28,8 +29,8 @@
   --warn-soft: #FBEFD6;
   --danger: #C2413B;      /* rojo suave */
   --danger-soft: #F9E1DF;
-  --info: #1C7F94;        /* steel oscurecido para texto */
-  --info-soft: #E3F5F9;
+  --info: var(--brand-blue);
+  --info-soft: #E2F1F8;
 
   color-scheme: light; /* controles nativos (fecha, hora) en claro aunque el iPhone esté en oscuro */
 
@@ -42,10 +43,10 @@
   --text: var(--brand-navy);
   --text-2: #4A5D6D;
   --text-3: #6F8291;
-  --accent: var(--brand-steel);
-  --accent-strong: #2E9FB6; /* para foco y bordes activos con contraste */
-  --accent-ink: var(--brand-navy); /* texto sobre accent */
-  --primary: var(--brand-navy);
+  --accent: var(--brand-blue);
+  --accent-strong: var(--brand-blue); /* links, foco y estados activos */
+  --accent-ink: var(--brand-white);   /* texto sobre accent */
+  --primary: var(--brand-blue);
   --primary-ink: var(--brand-white);
   --overlay: rgba(25, 47, 65, .30); /* capa Navy 30 % */
   --overlay-white: rgba(255, 255, 255, .30);
@@ -56,13 +57,13 @@
   --logo-on-dark: none;    /* logo blanco sobre Navy */
 
   /* Calendario: estados */
-  --st-pendiente: var(--brand-steel);
+  --st-pendiente: var(--brand-blue);
   --st-hecha: var(--ok);
   --st-cancelada: #9AA8B4;
   --st-reprogramada: #E0A33B;
 
   /* Gráficos */
-  --chart-1: var(--brand-steel);
+  --chart-1: var(--brand-blue);
   --chart-2: var(--brand-navy);
   --chart-3: var(--brand-grade);
   --chart-grid: #E4ECF3;
@@ -120,9 +121,10 @@
   --text: var(--brand-white);
   --text-2: #C4D5E3;
   --text-3: #93A9BA;
-  --accent-strong: var(--brand-steel);
-  --primary: var(--brand-steel);
-  --primary-ink: var(--brand-navy);
+  --accent-strong: var(--brand-steel); /* #0084B9 sobre Navy no tiene contraste para texto */
+  --primary: var(--brand-blue);
+  --primary-ink: var(--brand-white);
+  --chart-1: #2BA3D6;
   --ok: #4FC3B0; --ok-soft: rgba(79, 195, 176, .16);
   --warn: #F0B54A; --warn-soft: rgba(240, 181, 74, .16);
   --danger: #F08079; --danger-soft: rgba(240, 128, 121, .16);

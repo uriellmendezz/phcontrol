@@ -2,20 +2,14 @@
 import { html, mount, on } from './dom.js';
 import { icon } from './icons.js';
 
-let scrollY = 0;
 let openCount = 0;
 
+// El body no scrollea: alcanza con frenar el contenedor de scroll mientras hay una hoja abierta.
 function lockBody() {
-  if (openCount++ > 0) return;
-  scrollY = window.scrollY;
-  document.body.style.top = `-${scrollY}px`;
-  document.body.classList.add('modal-open');
+  if (openCount++ === 0) document.body.classList.add('modal-open');
 }
 function unlockBody() {
-  if (--openCount > 0) return;
-  document.body.classList.remove('modal-open');
-  document.body.style.top = '';
-  window.scrollTo(0, scrollY);
+  if (--openCount === 0) document.body.classList.remove('modal-open');
 }
 
 /**

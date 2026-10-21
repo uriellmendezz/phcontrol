@@ -80,9 +80,11 @@ export function meter(label, value, range, unit = '') {
 /**
  * Buscador de clientes (combobox accesible). Escribe el id en un input hidden con `name`.
  * onSelect(cliente) se llama al elegir.
+ * Con allowNew, si el nombre no existe se ofrece "Nuevo cliente": el hidden queda en "nuevo:<nombre>"
+ * y el formulario lo convierte en un cliente borrador al guardar (ensureCliente en store.js).
  */
 export function clientPicker(name, value = '', { required = true, label = 'Cliente' } = {}) {
-  const c = clientes().find((x) => x.id === value);
+  const c = clientes().find((x) => x.id === value) || (isNewClientRef(value) ? { nombre: newClientName(value) } : null);
   return html`<div class="field combo" data-combo="${name}">
     <label for="combo-${name}">${label}${required ? ' *' : ''}</label>
     <div class="search">${icon('search')}
@@ -94,7 +96,10 @@ export function clientPicker(name, value = '', { required = true, label = 'Clien
   </div>`;
 }
 
-export function bindClientPicker(root, name, onSelect) {
+export const isNewClientRef = (v) => typeof v === 'string' && v.startsWith('nuevo:');
+export const newClientName = (v) => String(v).slice(6);
+
+export function bindClientPicker(root, name, onSelect, { allowNew = false } = {}) {
   const box = root.querySelector(`[data-combo="${CSS.escape(name)}"]`);
   if (!box) return;
   const input = box.querySelector('input[type="search"]');
@@ -104,9 +109,14 @@ export function bindClientPicker(root, name, onSelect) {
     const q = input.value.trim().toLowerCase();
     const items = clientes().filter((c) => c.estado !== 'inactivo' || c.id === hidden.value)
       .filter((c) => !q || `${fullName(c)} ${c.barrio} ${c.direccion} ${c.telefono}`.toLowerCase().includes(q)).slice(0, 30);
-    list.innerHTML = items.length
-      ? items.map((c) => `<button type="button" class="combo-item" role="option" data-id="${esc(c.id)}"><span class="strong">${esc(fullName(c))}</span><br><span class="small muted">${esc([c.direccion, c.barrio].filter(Boolean).join(' · ') || 'Sin dirección')}</span></button>`).join('')
-      : `<p class="small muted" style="padding:12px">No hay clientes que coincidan. <a href="#/clientes/nuevo">Crear cliente</a></p>`;
+    const typed = input.value.trim();
+    const exact = items.some((c) => fullName(c).toLowerCase() === typed.toLowerCase());
+    const newOpt = allowNew && typed.length >= 2 && !exact
+      ? `<button type="button" class="combo-item combo-new" role="option" data-new="${esc(typed)}"><span class="strong">+ Nuevo cliente: ${esc(typed)}</span><br><span class="small muted">Se guarda como borrador en Clientes para completar después</span></button>`
+      : '';
+    list.innerHTML = (items.length
+      ? items.map((c) => `<button type="button" class="combo-item" role="option" data-id="${esc(c.id)}"><span class="strong">${esc(fullName(c))}</span>${c.estado === 'borrador' ? ' <span class="badge warn">Borrador</span>' : ''}<br><span class="small muted">${esc([c.direccion, c.barrio].filter(Boolean).join(' · ') || 'Sin dirección')}</span></button>`).join('')
+      : (newOpt ? '' : `<p class="small muted" style="padding:12px">No hay clientes que coincidan. ${allowNew ? 'Escribí el nombre para agregarlo.' : '<a href="#/clientes/nuevo">Crear cliente</a>'}</p>`)) + newOpt;
     list.hidden = false;
     input.setAttribute('aria-expanded', 'true');
   };
@@ -115,10 +125,18 @@ export function bindClientPicker(root, name, onSelect) {
   input.addEventListener('blur', () => setTimeout(() => {
     list.hidden = true; input.setAttribute('aria-expanded', 'false');
     const c = clientes().find((x) => x.id === hidden.value);
-    if (!c) input.value = '';
+    if (!c && !isNewClientRef(hidden.value)) input.value = '';
   }, 180));
   on(list, 'mousedown', '.combo-item', (e) => e.preventDefault());
   on(list, 'click', '.combo-item', (e, b) => {
+    if (b.dataset.new) {
+      hidden.value = `nuevo:${b.dataset.new}`;
+      input.value = b.dataset.new;
+      list.hidden = true;
+      hidden.dispatchEvent(new Event('change', { bubbles: true }));
+      onSelect?.({ id: hidden.value, nombre: b.dataset.new, apellido: '', nuevo: true });
+      return;
+    }
     const c = clientes().find((x) => x.id === b.dataset.id);
     hidden.value = c.id;
     input.value = fullName(c);

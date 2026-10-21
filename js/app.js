@@ -54,10 +54,11 @@ function setupKeyboard() {
 function setupHeader() {
   const header = document.getElementById('app-header');
   let ticking = false;
-  window.addEventListener('scroll', () => {
+  const sc = document.getElementById('scroller');
+  sc.addEventListener('scroll', () => {
     if (ticking) return;
     ticking = true;
-    requestAnimationFrame(() => { header.classList.toggle('scrolled', window.scrollY > 4); ticking = false; });
+    requestAnimationFrame(() => { header.classList.toggle('scrolled', sc.scrollTop > 4); ticking = false; });
   }, { passive: true });
 }
 

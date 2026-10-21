@@ -20,6 +20,8 @@ async function toDataURL(url) {
   return blobToDataURL(await res.blob());
 }
 
+const CARD_LABELS = { ph: 'pH', cloro: 'Cloro libre', alcalinidad: 'Alcalinidad', estabilizante: 'Estabilizante' };
+
 function paramRow(key, value, range) {
   if (value === '' || value === null || value === undefined) return '';
   const st = rangeStatus(value, range);
@@ -29,7 +31,8 @@ function paramRow(key, value, range) {
   const lo = min - w * 1.5; const hi = max + w * 1.5;
   const pct = (x) => Math.max(0, Math.min(100, ((x - lo) / (hi - lo)) * 100));
   return html`<div class="sc-param">
-    <div class="sc-param-top"><span class="sc-param-name">${PARAMS[key].label}</span><span class="sc-param-val">${num(value)} ${PARAMS[key].unit}</span></div>
+    <div class="sc-param-name">${CARD_LABELS[key]}</div>
+    <div class="sc-param-val">${num(value)}${PARAMS[key].unit ? html`<span class="sc-unit">${PARAMS[key].unit}</span>` : ''}</div>
     <div class="sc-track"><div class="sc-band" style="left:${pct(min)}%;width:${pct(max) - pct(min)}%"></div><div class="sc-mark ${st}" style="left:${pct(value)}%"></div></div>
     <div class="sc-param-foot"><span>Objetivo ${num(min)}–${num(max)} ${PARAMS[key].unit}</span><span class="sc-chip ${st}">${txt}</span></div>
   </div>`;
@@ -39,8 +42,9 @@ export async function buildCard(v) {
   const cfg = settings();
   const c = get('clientes', v.cliente_id);
   const p = v.pileta_id ? get('piletas', v.pileta_id) : null;
-  const [logo, waves, antes, despues] = await Promise.all([
+  const [logo, logoVector, waves, antes, despues] = await Promise.all([
     toDataURL('assets/logo/logo-white.png'),
+    toDataURL('assets/logo/logo-white.svg'),
     toDataURL('assets/img/ondas.svg').catch(() => ''),
     v.foto_antes ? photoBlob(v.foto_antes).then((b) => (b ? blobToDataURL(b) : '')) : '',
     v.foto_despues ? photoBlob(v.foto_despues).then((b) => (b ? blobToDataURL(b) : '')) : ''
@@ -50,7 +54,6 @@ export async function buildCard(v) {
   el.className = 'share-card';
   mount(el, html`
     <div class="sc-head" style="background-image:url('${waves}')">
-      <div class="sc-head-layer"></div>
       <div class="sc-head-inner">
         <img class="sc-logo" src="${logo}" alt="phcontrol">
         <div class="sc-kicker">Reporte de mantenimiento</div>
@@ -79,8 +82,11 @@ export async function buildCard(v) {
       ${v.observaciones ? html`<div class="sc-section-title">Observaciones</div><p class="sc-obs">${v.observaciones}</p>` : ''}
     </div>
     <div class="sc-foot">
-      <div><strong>${cfg.negocio.nombre || 'phcontrol'}</strong>${cfg.negocio.titular ? ` · ${cfg.negocio.titular}` : ''}${cfg.negocio.telefono ? ` · ${cfg.negocio.telefono}` : ''}</div>
-      <div class="sc-lema">${cfg.negocio.lema}</div>
+      <img class="sc-foot-logo" src="${logoVector}" alt="phcontrol">
+      <div class="sc-foot-text">
+        ${cfg.negocio.titular || cfg.negocio.telefono ? html`<div>${[cfg.negocio.titular, cfg.negocio.telefono].filter(Boolean).join(' · ')}</div>` : ''}
+        <div class="sc-lema">${cfg.negocio.lema}</div>
+      </div>
     </div>`);
   return el;
 }

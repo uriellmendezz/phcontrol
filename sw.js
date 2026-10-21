@@ -6,7 +6,7 @@
  * - Apps Script: nunca se cachea (los datos viven en IndexedDB).
  * Al publicar cambios, subí VERSION para que los iPhones reciban la actualización.
  */
-const VERSION = 'v1.1.0';
+const VERSION = 'v1.2.0';
 const SHELL = `phcontrol-shell-${VERSION}`;
 const RUNTIME = 'phcontrol-runtime';
 
@@ -64,9 +64,11 @@ const ASSETS = [
   './js/views/teorico-articulo.js',
   './js/views/ajustes.js',
   './js/views/mas.js',
+  './js/views/mapa.js',
   './data/teorico.json',
   './assets/logo/logo-white.png',
   './assets/logo/logo-navy.png',
+  './assets/logo/logo-white.svg',
   './assets/logo/main-logo.png',
   './assets/icons/icon-180.png',
   './assets/icons/icon-192.png',
@@ -82,7 +84,9 @@ const OPTIONAL = [
   './assets/fonts/HurmeGeometricSans4-Bold.woff2',
   './assets/fonts/Outfit-Variable.woff2',
   'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js',
-  'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js'
+  'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js',
+  'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js',
+  'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'
 ];
 
 self.addEventListener('install', (event) => {

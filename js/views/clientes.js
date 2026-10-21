@@ -20,7 +20,7 @@ export default async function clientesView(root, ctx) {
     const last = lastVisits();
     const t = today();
     const items = clientes()
-      .filter((c) => filtro === 'todos' || (filtro === 'inactivos' ? c.estado === 'inactivo' : c.estado !== 'inactivo'))
+      .filter((c) => filtro === 'todos' || (filtro === 'inactivos' ? c.estado === 'inactivo' : filtro === 'borradores' ? c.estado === 'borrador' : c.estado !== 'inactivo'))
       .filter((c) => filtro !== 'deuda' || saldoCliente(c.id) > 0)
       .filter((c) => filtro !== 'sin_visita' || (last.has(c.id) && diffDays(t, last.get(c.id)) > N && c.estado !== 'inactivo'))
       .filter((c) => !q || `${fullName(c)} ${c.direccion} ${c.barrio} ${c.telefono}`.toLowerCase().includes(q));
@@ -39,6 +39,7 @@ export default async function clientesView(root, ctx) {
           <div class="li-title">${fullName(c)}</div>
           <div class="li-sub">${[c.barrio || c.direccion, lv ? `Última: ${relDay(lv).toLowerCase()}` : 'Sin visitas'].filter(Boolean).join(' · ')}</div>
         </div>
+        ${c.estado === 'borrador' ? html`<span class="badge warn">Borrador</span>` : ''}
         ${saldo > 0 ? html`<span class="badge danger">${money(saldo)}</span>` : c.estado === 'inactivo' ? html`<span class="badge">Inactivo</span>` : ''}
         ${icon('chevron', 'li-chevron')}
       </a>`;
@@ -46,10 +47,10 @@ export default async function clientesView(root, ctx) {
   }
 
   mount(root, html`
-    ${pageHead('Clientes', `${clientes().filter((c) => c.estado !== 'inactivo').length} activos`, html`<a class="btn btn-sm" href="#/clientes/nuevo">${icon('plus')}Nuevo</a>`)}
+    ${pageHead('Clientes', `${clientes().filter((c) => c.estado !== 'inactivo' && c.estado !== 'borrador').length} activos`, html`<div class="row" style="gap:8px"><a class="icon-btn soft" href="#/mapa" aria-label="Ver mapa de clientes">${icon('pin')}</a><a class="btn btn-sm" href="#/clientes/nuevo">${icon('plus')}Nuevo</a></div>`)}
     <div class="search">${icon('search')}<input class="input" type="search" id="cli-q" placeholder="Buscar por nombre, barrio o teléfono" aria-label="Buscar clientes" autocomplete="off"></div>
     <div class="chips" style="margin-top:12px" role="group" aria-label="Filtro">
-      ${[['activos', 'Activos'], ['deuda', 'Con saldo'], ['sin_visita', 'Sin visitar'], ['inactivos', 'Inactivos'], ['todos', 'Todos']].map(([k, l]) => html`<button type="button" class="chip" data-f="${k}" aria-pressed="${k === filtro}">${l}</button>`)}
+      ${[['activos', 'Activos'], ['borradores', 'Borradores'], ['deuda', 'Con saldo'], ['sin_visita', 'Sin visitar'], ['inactivos', 'Inactivos'], ['todos', 'Todos']].map(([k, l]) => html`<button type="button" class="chip" data-f="${k}" aria-pressed="${k === filtro}">${l}</button>`)}
     </div>
     <div id="cli-list" style="margin-top:16px"></div>`);
 

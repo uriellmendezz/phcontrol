@@ -14,14 +14,16 @@ export default async function clienteForm(root, ctx) {
   const existing = id ? get('clientes', id) : null;
   if (id && !existing) { mount(root, errorState('No encontramos ese cliente.')); return; }
   const draftKey = `cliente:${id || 'nuevo'}`;
-  const base = existing ? { ...existing } : { estado: 'activo', tarifa_tipo: 'visita' };
+  // Un borrador se activa al completarlo (el usuario puede volver a elegir "Borrador" si todavía le faltan datos).
+  const base = existing ? { ...existing, ...(existing.estado === 'borrador' ? { estado: 'activo' } : {}) } : { estado: 'activo', tarifa_tipo: 'visita' };
   const draft = await getDraft(draftKey);
   const useDraft = draft && (!existing || draft.t > Date.parse(existing.actualizado_en));
   const init = useDraft ? { ...base, ...draft.data } : base;
   const firstPool = !existing; // al crear, se carga la primera pileta en el mismo formulario
 
   mount(root, html`
-    ${pageHead(existing ? 'Editar cliente' : 'Nuevo cliente')}
+    ${pageHead(existing ? (existing.estado === 'borrador' ? 'Completar cliente' : 'Editar cliente') : 'Nuevo cliente')}
+    ${existing?.estado === 'borrador' ? html`<div class="alert warn" style="margin-bottom:16px">${icon('info')}<p>Este cliente se creó desde la agenda o una visita. Completá sus datos y guardá: pasa a <strong>Activo</strong>.</p></div>` : ''}
     ${useDraft ? html`<div class="alert info" style="margin-bottom:16px">${icon('info')}<div class="grow"><p class="alert-title">Recuperamos un borrador</p><p>Guardado ${fdatetime(new Date(draft.t).toISOString())}.</p></div><button class="btn btn-sm btn-ghost" type="button" data-action="discard">Descartar</button></div>` : ''}
     <form class="form" id="cf" novalidate>
       <p class="fieldset-title">Datos personales</p>
@@ -50,7 +52,7 @@ export default async function clienteForm(root, ctx) {
         <div class="field"><label for="tt">Modalidad</label><select class="select" id="tt" name="tarifa_tipo"><option value="visita">Por visita</option><option value="abono">Abono mensual</option></select></div>
         <div class="field"><label for="tm">Monto</label><div class="input-suffix"><input class="input" id="tm" name="tarifa_monto" inputmode="decimal" autocomplete="off"><span>$</span></div></div>
       </div>
-      <div class="field"><label for="estado">Estado</label><select class="select" id="estado" name="estado"><option value="activo">Activo</option><option value="inactivo">Inactivo</option></select></div>
+      <div class="field"><label for="estado">Estado</label><select class="select" id="estado" name="estado"><option value="activo">Activo</option><option value="inactivo">Inactivo</option><option value="borrador">Borrador (datos incompletos)</option></select></div>
       <div class="field"><label for="notas">Notas</label><textarea class="textarea" id="notas" name="notas" placeholder="Horarios, acceso, preferencias…"></textarea></div>
 
       ${firstPool ? html`

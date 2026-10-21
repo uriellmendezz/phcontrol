@@ -8,6 +8,16 @@ export function computeAlerts(cfg, fc) {
   const out = [];
   const t = today();
 
+  // Clientes creados desde la agenda o una visita, con datos por completar
+  const borradores = all('clientes').filter((c) => c.estado === 'borrador');
+  if (borradores.length) {
+    out.push({
+      level: 'warn', ic: 'users', href: '#/clientes?filtro=borradores',
+      title: `${borradores.length} cliente${borradores.length > 1 ? 's' : ''} en borrador`,
+      text: `Completá los datos de ${borradores.slice(0, 3).map(fullName).join(', ')}${borradores.length > 3 ? '…' : ''}.`
+    });
+  }
+
   // Stock bajo
   const bajos = all('stock').filter((p) => p.umbral !== '' && Number(p.cantidad || 0) <= Number(p.umbral));
   if (bajos.length) {

@@ -31,7 +31,7 @@ var SCHEMA = {
     notas: { type: 'string', max: 4000 },
     tarifa_tipo: { type: 'enum', values: ['visita', 'abono', ''] },
     tarifa_monto: { type: 'number', min: 0 },
-    estado: { type: 'enum', values: ['activo', 'inactivo'], required: true }
+    estado: { type: 'enum', values: ['activo', 'inactivo', 'borrador'], required: true }
   },
   Piletas: {
     cliente_id: { type: 'string', required: true },
@@ -174,6 +174,7 @@ function checkToken_(token) {
 /** Crea las pestañas que falten y agrega columnas nuevas sin tocar las existentes. */
 function setup_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (ss.getSpreadsheetTimeZone() !== 'America/Argentina/Buenos_Aires') ss.setSpreadsheetTimeZone('America/Argentina/Buenos_Aires');
   var made = [];
   Object.keys(SCHEMA).forEach(function (name) {
     var sh = ss.getSheetByName(name);
@@ -251,13 +252,14 @@ function upsert_(sh, table, rec) {
     }
   }
   var values = headers.map(function (h) { return toCell_(rec[h]); });
+  // Siempre setValues sobre celdas en formato texto ('@'): appendRow convertía "18:00" en una hora de Sheets.
+  var row = existingRow || (table.rows.length + 2);
+  sh.getRange(row, 1, 1, headers.length).setNumberFormat('@').setValues([values]);
   if (existingRow) {
-    sh.getRange(existingRow, 1, 1, headers.length).setValues([values]);
     table.rows[existingRow - 2] = rec;
   } else {
-    sh.appendRow(values);
     table.rows.push(rec);
-    table.index[rec.id] = table.rows.length + 1;
+    table.index[rec.id] = row;
   }
   return { ok: true, id: rec.id, record: rec };
 }
@@ -359,7 +361,7 @@ function readSheet_(sh) {
     var values = sh.getRange(2, 1, lastRow - 1, lastCol).getValues();
     values.forEach(function (vals, i) {
       var o = {};
-      headers.forEach(function (h, j) { o[h] = fromCell_(vals[j]); });
+      headers.forEach(function (h, j) { o[h] = fromCell_(vals[j], fieldType_(sh.getName(), h)); });
       o.eliminado = o.eliminado === true || o.eliminado === 'TRUE' || o.eliminado === 'true';
       rows.push(o);
       if (o.id) index[o.id] = i + 2;
@@ -374,8 +376,26 @@ function toCell_(v) {
   return String(v);
 }
 
-function fromCell_(v) {
-  if (v instanceof Date) return Utilities.formatDate(v, 'America/Argentina/Buenos_Aires', 'yyyy-MM-dd');
+function fieldType_(sheetName, field) {
+  var rule = SCHEMA[sheetName] && SCHEMA[sheetName][field];
+  return rule ? rule.type : '';
+}
+
+/**
+ * Sheets puede convertir textos a fecha/hora (por ejemplo, si editás a mano). Se vuelven a texto
+ * según el tipo del campo. Una hora sola llega como fecha del 30/12/1899: eso se lee como HH:MM.
+ */
+function fromCell_(v, type) {
+  if (v instanceof Date) {
+    var tz = SpreadsheetApp.getActiveSpreadsheet().getSpreadsheetTimeZone();
+    if (type === 'time' || v.getFullYear() < 1900) return Utilities.formatDate(v, tz, 'HH:mm');
+    if (type === 'date') return Utilities.formatDate(v, tz, 'yyyy-MM-dd');
+    return v.toISOString();
+  }
+  if (type === 'time' && v !== '' && v !== null) {
+    var m = String(v).match(/^(\d{1,2}):(\d{2})/);
+    return m ? ('0' + m[1]).slice(-2) + ':' + m[2] : '';
+  }
   return v;
 }
 

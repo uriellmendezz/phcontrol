@@ -32,7 +32,7 @@ export default async function stockView(root, ctx) {
           <a class="li-main" href="#/stock/${p.id}" style="color:inherit;text-decoration:none">
             <div class="li-title">${p.producto}</div>
             <div class="li-sub">${fmtQty(Number(p.cantidad) || 0, p.unidad)}${p.umbral !== '' ? ` · mín. ${num(p.umbral)} ${p.unidad}` : ''}${p.precio !== '' ? ` · venta ${money(p.precio)}` : ''}</div>
-            <div class="row" style="gap:6px;margin-top:4px">${low ? html`<span class="badge danger">Stock bajo</span>` : ''}${miss.length ? html`<span class="badge warn">Completar etiqueta</span>` : ''}</div>
+            <div class="row wrap" style="gap:6px;margin-top:4px">${low ? html`<span class="badge danger">Stock bajo</span>` : ''}${miss.length ? html`<span class="badge warn">Completar etiqueta</span>` : ''}</div>
           </a>
           <button class="btn btn-sm btn-soft" type="button" data-restock="${p.id}" aria-label="Reponer ${p.producto}">${icon('plus')}Reponer</button>
         </div>`;

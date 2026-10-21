@@ -1,7 +1,7 @@
 import { html, mount, on, debounce, formData, fillForm, showErrors, esc } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
-import { pageHead, clientPicker, bindClientPicker, piletaOptions, photoField, bindPhotoFields, rangeStatus, errorState } from '../ui/components.js';
-import { get, save, all, piletasDe, ajustarStock } from '../data/store.js';
+import { pageHead, clientPicker, bindClientPicker, piletaOptions, photoField, bindPhotoFields, rangeStatus, errorState, isNewClientRef } from '../ui/components.js';
+import { get, save, all, piletasDe, ajustarStock, ensureCliente } from '../data/store.js';
 import { settings } from '../data/settings.js';
 import { getDraft, saveDraft, clearDraft } from '../data/drafts.js';
 import { idb } from '../data/db.js';
@@ -165,7 +165,7 @@ export default async function visitaForm(root, ctx) {
     if (!existing && form.monto.value === '' && c.tarifa_tipo === 'visita' && c.tarifa_monto !== '') form.monto.value = c.tarifa_monto;
     if (!existing && c.tarifa_tipo === 'abono') form.estado_pago.value = 'sin_cargo';
     persistDraft();
-  });
+  }, { allowNew: true });
   on(root, 'click', '#chem-warn a', () => saveDraft(draftKey, { ...formData(form), productos: readProds() }));
   on(root, 'click', '[data-action="add-prod"]', () => { prodRow(); prodsBox.lastElementChild.querySelector('select').focus(); });
   on(root, 'click', '[data-action="rm-prod"]', (e, b) => { b.closest('.prod-row').remove(); persistDraft(); });
@@ -201,9 +201,11 @@ export default async function visitaForm(root, ctx) {
     const btn = form.querySelector('[type="submit"]');
     btn.classList.add('is-loading');
     try {
+      const nuevo = isNewClientRef(d.cliente_id);
+      const clienteId = await ensureCliente(d.cliente_id, 'un registro de visita');
       const rec = await save('visitas', {
         ...(existing || {}),
-        cliente_id: d.cliente_id, pileta_id: d.pileta_id, agenda_id: existing?.agenda_id || init.agenda_id || '',
+        cliente_id: clienteId, pileta_id: d.pileta_id, agenda_id: existing?.agenda_id || init.agenda_id || '',
         fecha: d.fecha, hora: d.hora,
         ph: nums.ph, cloro: nums.cloro, alcalinidad: nums.alcalinidad, estabilizante: nums.estabilizante,
         productos, foto_antes: d.foto_antes, foto_despues: d.foto_despues,
@@ -213,7 +215,7 @@ export default async function visitaForm(root, ctx) {
       const ag = rec.agenda_id ? get('agenda', rec.agenda_id) : null;
       if (ag && (ag.estado !== 'hecha' || ag.visita_id !== rec.id)) await save('agenda', { ...ag, estado: 'hecha', visita_id: rec.id });
       persistDraft.cancel(); await clearDraft(draftKey);
-      toast(existing ? 'Visita actualizada' : `Visita guardada${rec.monto ? ` · ${money(rec.monto)}` : ''}`);
+      toast((existing ? 'Visita actualizada' : `Visita guardada${rec.monto ? ` · ${money(rec.monto)}` : ''}`) + (nuevo ? '. El cliente quedó como borrador en Clientes.' : ''), { duration: nuevo ? 5000 : 3200 });
       navigate(`#/visitas/${rec.id}`, { replace: true });
     } catch (err) {
       btn.classList.remove('is-loading');

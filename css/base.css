@@ -8,7 +8,8 @@ html {
 }
 body {
   margin: 0;
-  min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
   font-family: var(--font);
   font-size: var(--fs-md);
   line-height: var(--lh);
@@ -20,9 +21,18 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-body.modal-open { overflow: hidden; position: fixed; left: 0; right: 0; }
+/* Contenedor de scroll de la app (ver index.html) */
+.scroller {
+  position: fixed; inset: 0;
+  overflow-x: hidden; overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+body.modal-open .scroller { overflow: hidden; }
 
 img, svg, canvas { display: block; max-width: 100%; }
+/* Tamaño por defecto de los íconos: un ícono sin regla propia nunca ocupa todo el ancho */
+:where(svg.ic) { width: 20px; height: 20px; flex: none; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a { color: var(--accent-strong); }
@@ -71,7 +81,7 @@ p { margin: 0; }
 .view {
   max-width: var(--maxw);
   margin: 0 auto;
-  min-height: 100dvh;
+  min-height: 100%;
   padding:
     calc(var(--header-h) + var(--safe-top) + var(--sp-2))
     calc(var(--sp-4) + var(--safe-right))
@@ -79,7 +89,7 @@ p { margin: 0; }
     calc(var(--sp-4) + var(--safe-left));
   outline: none;
 }
-.view-enter { animation: view-in var(--dur) var(--ease) both; }
+.view-enter { animation: view-in var(--dur) var(--ease) backwards; }
 @keyframes view-in { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: none; } }
 
 /* ---------- Tabbar inferior ---------- */

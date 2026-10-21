@@ -61,9 +61,13 @@
     </button>
   </header>
 
-  <main id="view" class="view" tabindex="-1"></main>
+  <!-- El scroll ocurre acá adentro (no en el body): header y barra inferior quedan fijos aun con el rebote de iOS. -->
+  <div id="scroller" class="scroller">
+    <main id="view" class="view" tabindex="-1"></main>
+  </div>
 
   <nav class="tabbar" id="tabbar" aria-label="Secciones principales"></nav>
+  <div id="fab-root"></div>
 
   <div id="modal-root"></div>
   <div id="toast-root" class="toast-root" role="status" aria-live="polite"></div>

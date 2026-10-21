@@ -19,7 +19,7 @@ export function setWriteHook(fn) { onWrite = fn; }
 export async function loadAll() {
   await Promise.all(Object.keys(ENTITIES).map(async (e) => {
     const rows = await idb.getAll(e);
-    cache[e] = new Map(rows.map((r) => [r.id, r]));
+    cache[e] = new Map(rows.map((r) => [r.id, normalize(e, r)])); // corrige datos viejos (p. ej. horas 1899-12-30)
   }));
   loaded = true;
 }
@@ -101,6 +101,20 @@ export function saldoCliente(clienteId) {
   const v = all('visitas').filter((x) => x.cliente_id === clienteId && x.estado_pago === 'pendiente').reduce((s, x) => s + (Number(x.monto) || 0), 0);
   const ve = all('ventas').filter((x) => x.cliente_id === clienteId && x.estado_pago === 'pendiente').reduce((s, x) => s + (Number(x.monto) || 0), 0);
   return v + ve;
+}
+
+/**
+ * Convierte la referencia "nuevo:<nombre>" del buscador en un cliente borrador real y devuelve su id.
+ * Si ya es un id, lo devuelve tal cual.
+ */
+export async function ensureCliente(ref, origen = '') {
+  if (typeof ref !== 'string' || !ref.startsWith('nuevo:')) return ref;
+  const [nombre, ...resto] = ref.slice(6).trim().split(/\s+/);
+  const c = await save('clientes', {
+    nombre, apellido: resto.join(' '), estado: 'borrador', tarifa_tipo: '',
+    notas: origen ? `Creado desde ${origen}. Completá los datos del cliente.` : ''
+  });
+  return c.id;
 }
 
 /** Ajusta el stock de un producto en delta (negativo = consumo). */
