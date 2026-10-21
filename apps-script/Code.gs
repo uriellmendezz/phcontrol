@@ -165,7 +165,8 @@ function onEdit(e) {
 /* ---------------- Acciones ---------------- */
 
 function checkToken_(token) {
-  var expected = PropertiesService.getScriptProperties().getProperty('TOKEN');
+  var expected = PropertiesService.getScriptProperties().getProperty('TOKEN') ||
+    (typeof TOKEN_INICIAL === 'string' && TOKEN_INICIAL.length >= 16 ? TOKEN_INICIAL : '');
   if (!expected) throw new Error('Falta configurar la propiedad TOKEN en el script.');
   if (!token || token !== expected) throw new Error('Token inválido');
 }
@@ -390,9 +391,15 @@ function json_(obj) {
 
 /** Ejecutalo una vez a mano desde el editor para crear las pestañas y autorizar Drive. */
 function inicializar() {
+  var props = PropertiesService.getScriptProperties();
+  // Si se subió secreto.gs (instalación con clasp), el token pasa a las Propiedades del script.
+  if (!props.getProperty('TOKEN') && typeof TOKEN_INICIAL === 'string' && TOKEN_INICIAL.length >= 16) {
+    props.setProperty('TOKEN', TOKEN_INICIAL);
+    Logger.log('Token guardado en las Propiedades del script.');
+  }
   Logger.log(setup_());
   Logger.log('Carpeta de fotos: ' + photoFolder_().getUrl());
-  if (!PropertiesService.getScriptProperties().getProperty('TOKEN')) {
+  if (!props.getProperty('TOKEN')) {
     Logger.log('ATENCIÓN: falta la propiedad TOKEN (Configuración del proyecto > Propiedades del script).');
   }
 }
