@@ -1,0 +1,24 @@
+# Lista blanca: se ignora TODO y solo se publica la app.
+# Así ningún archivo privado nuevo de esta carpeta llega al repo público (GitHub Pages es público).
+/*
+
+!/.gitignore
+!/.nojekyll
+!/README.md
+!/index.html
+!/manifest.webmanifest
+!/sw.js
+!/apps-script/
+!/assets/
+!/css/
+!/data/
+!/js/
+
+# Secretos de Apps Script (token y configuración de clasp): nunca al repo
+/apps-script/.clasp.json
+/apps-script/secreto.gs
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

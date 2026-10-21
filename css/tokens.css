@@ -1,0 +1,153 @@
+/* =========================================================
+   phcontrol · Design tokens
+   Para cambiar de marca, editá SOLO este archivo.
+   Paleta activa: kit v2 (Navy / Steel Blue / Grade / White).
+   Paleta alternativa "celeste y arena": agregá class="paleta-arena"
+   al <html> (ver al final). No está activa por defecto.
+   ========================================================= */
+
+/* ---------- Tipografía (archivos locales, offline) ---------- */
+@font-face { font-family: "Hurme Geometric Sans 4"; src: url("../assets/fonts/HurmeGeometricSans4-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Hurme Geometric Sans 4"; src: url("../assets/fonts/HurmeGeometricSans4-SemiBold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Hurme Geometric Sans 4"; src: url("../assets/fonts/HurmeGeometricSans4-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+/* Fallback libre (OFL): Outfit variable, también local */
+@font-face { font-family: "Outfit"; src: url("../assets/fonts/Outfit-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+
+:root {
+  /* Marca (kit v2 oficial) */
+  --brand-navy: #192F41;
+  --brand-steel: #68CBDE;
+  --brand-grade: #CDDEEC;
+  --brand-white: #FFFFFF;
+  --brand-logo-bg: #0084B9; /* solo icono y splash */
+
+  /* Semánticos derivados (ok / atención / peligro) */
+  --ok: #1E8C7E;          /* verde azulado */
+  --ok-soft: #DDF2EE;
+  --warn: #A86A00;        /* ámbar, legible sobre blanco */
+  --warn-soft: #FBEFD6;
+  --danger: #C2413B;      /* rojo suave */
+  --danger-soft: #F9E1DF;
+  --info: #1C7F94;        /* steel oscurecido para texto */
+  --info-soft: #E3F5F9;
+
+  color-scheme: light; /* controles nativos (fecha, hora) en claro aunque el iPhone esté en oscuro */
+
+  /* Superficies y texto (modo claro: blanco como color principal, texto Navy) */
+  --bg: var(--brand-white);
+  --surface: var(--brand-white);
+  --surface-2: #F1F6FA;   /* Grade muy aclarado: campos, chips, fondos suaves */
+  --border: #DFE9F1;
+  --divider: var(--brand-grade);
+  --text: var(--brand-navy);
+  --text-2: #4A5D6D;
+  --text-3: #6F8291;
+  --accent: var(--brand-steel);
+  --accent-strong: #2E9FB6; /* para foco y bordes activos con contraste */
+  --accent-ink: var(--brand-navy); /* texto sobre accent */
+  --primary: var(--brand-navy);
+  --primary-ink: var(--brand-white);
+  --overlay: rgba(25, 47, 65, .30); /* capa Navy 30 % */
+  --overlay-white: rgba(255, 255, 255, .30);
+  --scrim: rgba(25, 47, 65, .45);
+  --toast-bg: var(--brand-navy);
+  --toast-fg: var(--brand-white);
+  --logo-on-light: block;  /* logo Navy sobre White/Grade */
+  --logo-on-dark: none;    /* logo blanco sobre Navy */
+
+  /* Calendario: estados */
+  --st-pendiente: var(--brand-steel);
+  --st-hecha: var(--ok);
+  --st-cancelada: #9AA8B4;
+  --st-reprogramada: #E0A33B;
+
+  /* Gráficos */
+  --chart-1: var(--brand-steel);
+  --chart-2: var(--brand-navy);
+  --chart-3: var(--brand-grade);
+  --chart-grid: #E4ECF3;
+
+  /* Tipografía */
+  --font: "Hurme Geometric Sans 4", "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fs-xs: .75rem;
+  --fs-sm: .875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.375rem;
+  --fs-2xl: 1.75rem;
+  --fs-3xl: 2.25rem;
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --lh-tight: 1.15;
+  --lh: 1.5;
+
+  /* Espaciado, radios y sombras (casi imperceptibles) */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  --shadow: 0 1px 2px rgba(25, 47, 65, .04), 0 2px 8px rgba(25, 47, 65, .03);
+  --shadow-up: 0 -1px 0 var(--border);
+  --tap: 44px;
+
+  /* Movimiento */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --dur-fast: 140ms;
+  --dur: 260ms;
+
+  /* Layout */
+  --header-h: 56px;
+  --tabbar-h: 64px;
+  --maxw: 720px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+/* ---------- Modo oscuro ----------
+   El tema lo resuelve un script en <head> (index.html): data-theme="light" | "dark",
+   según lo elegido en Ajustes (Automático / Claro / Oscuro). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #12222F;
+  --surface: var(--brand-navy);
+  --surface-2: #213A4E;
+  --border: #2A465C;
+  --divider: #2A465C;
+  --text: var(--brand-white);
+  --text-2: #C4D5E3;
+  --text-3: #93A9BA;
+  --accent-strong: var(--brand-steel);
+  --primary: var(--brand-steel);
+  --primary-ink: var(--brand-navy);
+  --ok: #4FC3B0; --ok-soft: rgba(79, 195, 176, .16);
+  --warn: #F0B54A; --warn-soft: rgba(240, 181, 74, .16);
+  --danger: #F08079; --danger-soft: rgba(240, 128, 121, .16);
+  --info: var(--brand-steel); --info-soft: rgba(104, 203, 222, .14);
+  --st-cancelada: #6B8193;
+  --chart-2: var(--brand-white);
+  --chart-3: #4D6C84;
+  --chart-grid: #2A465C;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .18);
+  --scrim: rgba(0, 0, 0, .55);
+  --toast-bg: var(--brand-white);
+  --toast-fg: var(--brand-navy);
+  --logo-on-light: none;
+  --logo-on-dark: block;
+}
+
+/* ---------- Paleta alternativa "celeste y arena" (NO activa) ---------- */
+html.paleta-arena {
+  --brand-navy: #1F3A4B;
+  --brand-steel: #7FC6DF;
+  --brand-grade: #BFE4F2;
+  --bg: #F4EDE2;
+  --surface-2: #EFE6D6;
+  --border: #E4D7C1;
+  --accent-strong: #3D93B3;
+  --warn: #8C6E46;
+  --chart-3: #D9C3A0;
+}

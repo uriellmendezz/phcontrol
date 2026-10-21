@@ -1,0 +1,218 @@
+{
+  "_instrucciones": "Editá este archivo para ampliar el Teórico sin tocar código. Cada artículo necesita 'id' único, 'categoria' (una de las claves de 'categorias') y 'titulo'. Los campos sintomas/causas/pasos/productos/seguridad son listas opcionales. 'contenido' admite Markdown simple: ## títulos, - listas, 1. listas numeradas y **negrita**. Las dosis se calculan en la Calculadora con los datos de TU etiqueta; acá no se ponen cantidades. Después de editar, subí VERSION en sw.js.",
+  "categorias": {
+    "problemas": "Resolución de problemas",
+    "quimica": "Química del agua",
+    "limpieza": "Limpieza paso a paso",
+    "equipos": "Bomba y filtro",
+    "faq": "Preguntas frecuentes",
+    "seguridad": "Seguridad"
+  },
+  "articulos": [
+    {
+      "id": "agua-verde",
+      "categoria": "problemas",
+      "titulo": "Agua verde",
+      "resumen": "Proliferación de algas por falta de desinfección. Es el problema más común después de lluvias o calor fuerte.",
+      "tags": ["algas", "verde", "shock", "floculante", "alguicida"],
+      "sintomas": ["Agua color verde claro a verde oscuro", "Paredes y fondo resbaladizos", "No se ve el fondo"],
+      "causas": ["Cloro libre por debajo del rango (1–3 ppm) durante días", "pH alto: el cloro pierde eficacia", "Filtrado insuficiente o filtro sucio", "Lluvia, calor intenso o mucho uso sin reforzar el tratamiento"],
+      "pasos": ["Medí pH y cloro libre.", "Llevá el pH al rango 7,2–7,6 antes del shock.", "Cepillá paredes y fondo para despegar las algas.", "Aplicá clarificante o floculante según la etiqueta (con floculante, dejá reposar con el filtro apagado y luego aspirá a desagote).", "Hacé un shock de cloro, preferentemente al atardecer, con el filtro funcionando.", "Aplicá alguicida cuando la etiqueta lo indique.", "Filtrá de forma continua y hacé retrolavado si sube la presión.", "Volvé a medir. Si sigue verde, repetí el ciclo."],
+      "productos": ["Regulador de pH (según medición)", "Clarificante o floculante", "Cloro (líquido o granulado de disolución rápida) para el shock", "Alguicida"],
+      "seguridad": ["No mezcles cloro con ácido ni con otros productos.", "No se bañen hasta que el cloro vuelva al rango."],
+      "contenido": "Usá la **receta guiada \"Agua verde\"** de la Calculadora: calcula cada dosis con los datos de tus productos y te deja cronometrar las esperas que indica la etiqueta."
+    },
+    {
+      "id": "agua-turbia",
+      "categoria": "problemas",
+      "titulo": "Agua turbia o lechosa",
+      "resumen": "Partículas en suspensión que el filtro no retiene. El agua puede estar desinfectada pero se ve opaca.",
+      "tags": ["turbia", "lechosa", "clarificante", "filtro"],
+      "sintomas": ["Agua opaca, blanquecina o grisácea", "Se ve mal el fondo aunque no esté verde"],
+      "causas": ["Filtrado insuficiente (pocas horas o filtro saturado)", "pH o alcalinidad fuera de rango", "Partículas finas de tierra o polvo", "Inicio de un problema de algas"],
+      "pasos": ["Medí pH, cloro y, si podés, alcalinidad.", "Corregí la alcalinidad y luego el pH.", "Revisá la presión del filtro y hacé retrolavado si corresponde.", "Aumentá las horas de filtrado.", "Aplicá clarificante según la etiqueta.", "Si no mejora, usá floculante y aspirá el fondo a desagote."],
+      "productos": ["Clarificante", "Floculante (casos persistentes)", "Reguladores de pH"],
+      "seguridad": ["Con floculante, aspirá a desagote para no devolver la suciedad al filtro."]
+    },
+    {
+      "id": "algas-paredes",
+      "categoria": "problemas",
+      "titulo": "Algas en paredes y rincones",
+      "resumen": "Manchas verdes, amarillentas u oscuras pegadas en escalones, rincones y juntas.",
+      "tags": ["algas", "manchas", "cepillado", "alguicida"],
+      "sintomas": ["Manchas verdes o amarillentas que salen al cepillar", "Puntos oscuros en juntas o rincones con poca circulación"],
+      "causas": ["Zonas de poca circulación", "Cloro bajo o irregular", "Poco cepillado"],
+      "pasos": ["Cepillá con fuerza la zona afectada.", "Verificá pH y cloro y corregí.", "Aplicá alguicida según la etiqueta, dirigido a la zona.", "Repetí el cepillado al día siguiente.", "Orientá las boquillas de retorno para mejorar la circulación."],
+      "productos": ["Alguicida", "Cloro"],
+      "seguridad": ["No apliques productos concentrados directamente sobre el revestimiento salvo que la etiqueta lo permita."]
+    },
+    {
+      "id": "espuma",
+      "categoria": "problemas",
+      "titulo": "Espuma en la superficie",
+      "resumen": "Generalmente por exceso de alguicida o restos de cremas, jabones y cosméticos.",
+      "tags": ["espuma", "alguicida", "cosméticos"],
+      "sintomas": ["Espuma persistente al mover el agua o en los retornos"],
+      "causas": ["Exceso de alguicida (algunos generan espuma)", "Cremas, protector solar, jabones o detergentes", "Agua con mucho uso y poca renovación"],
+      "pasos": ["Suspendé el alguicida hasta que desaparezca la espuma.", "Retirá la espuma con el sacahojas.", "Mantené el filtrado y el cloro en rango.", "Si persiste, renová parcialmente el agua.", "Recomendá ducharse antes de entrar."],
+      "productos": ["Revisá en la etiqueta si tu alguicida es de baja espuma"],
+      "seguridad": []
+    },
+    {
+      "id": "olor-cloro",
+      "categoria": "problemas",
+      "titulo": "Olor fuerte a cloro y ojos irritados",
+      "resumen": "Suele indicar cloro combinado (cloraminas) o pH fuera de rango, no necesariamente exceso de cloro libre.",
+      "tags": ["olor", "ojos", "cloraminas", "irritación"],
+      "sintomas": ["Olor intenso a \"pileta\"", "Ardor de ojos o piel"],
+      "causas": ["Cloro combinado por materia orgánica (sudor, orina, cremas)", "pH fuera del rango 7,2–7,6", "Cloro libre insuficiente para oxidar la carga orgánica"],
+      "pasos": ["Medí pH y cloro libre.", "Corregí el pH al rango.", "Si el cloro libre está bajo o hay mucha carga orgánica, aplicá un shock de cloro.", "Filtrá y volvé a medir antes de habilitar el baño."],
+      "productos": ["Reguladores de pH", "Cloro para shock"],
+      "seguridad": ["No agregues más cloro si el cloro libre ya está alto: esperá y volvé a medir."]
+    },
+    {
+      "id": "ph-sube",
+      "categoria": "problemas",
+      "titulo": "pH que sube constantemente",
+      "resumen": "El pH alto reduce la eficacia del cloro y favorece agua turbia e incrustaciones.",
+      "tags": ["ph alto", "alcalinidad", "ácido muriático", "ph-"],
+      "sintomas": ["Lecturas de pH por encima de 7,6", "Agua turbia, sarro en bordes"],
+      "causas": ["Alcalinidad alta (por encima de 120 ppm)", "Uso de cloro que eleva el pH (líquido o granulado)", "Agua de reposición dura", "Pileta nueva de hormigón (curado)"],
+      "pasos": ["Medí la alcalinidad: si está alta, bajala primero.", "Aplicá reductor de pH o ácido muriático según la Calculadora, en etapas.", "Con el filtro funcionando, distribuí el producto diluido frente a los retornos.", "Volvé a medir luego de filtrar."],
+      "productos": ["Regulador de pH− o ácido muriático"],
+      "seguridad": ["Agregá siempre el ácido al agua, nunca al revés.", "Nunca juntes ácido con cloro: libera gas tóxico."]
+    },
+    {
+      "id": "ph-baja",
+      "categoria": "problemas",
+      "titulo": "pH bajo",
+      "resumen": "El pH bajo irrita ojos y piel y corroe metales y equipos.",
+      "tags": ["ph bajo", "ph+", "corrosión", "alcalinidad"],
+      "sintomas": ["Lecturas de pH por debajo de 7,2", "Ardor de ojos", "Corrosión en escaleras y accesorios"],
+      "causas": ["Alcalinidad baja (por debajo de 80 ppm)", "Exceso de ácido o de reductor de pH", "Lluvia abundante"],
+      "pasos": ["Medí la alcalinidad: si está baja, subila primero.", "Aplicá elevador de pH según la Calculadora, en etapas.", "Filtrá y volvé a medir."],
+      "productos": ["Regulador de pH+", "Elevador de alcalinidad (si corresponde)"],
+      "seguridad": ["No apliques reguladores de pH junto con cloro: esperá entre productos."]
+    },
+    {
+      "id": "manchas",
+      "categoria": "problemas",
+      "titulo": "Manchas en fondo y paredes",
+      "resumen": "Pueden ser orgánicas (hojas, algas) o minerales (metales, sarro). El color orienta la causa.",
+      "tags": ["manchas", "metales", "sarro", "hojas"],
+      "sintomas": ["Manchas marrones o verdosas bajo hojas", "Manchas rojizas, marrones o negras sin origen visible", "Costra blanquecina en la línea de agua"],
+      "causas": ["Materia orgánica que quedó en el fondo", "Metales disueltos (hierro, cobre) en el agua de reposición o por corrosión", "Sarro por pH y alcalinidad altos"],
+      "pasos": ["Cepillá la mancha: si sale fácil, es orgánica.", "Retirá hojas a diario y mantené el cloro en rango.", "Si es mineral, corregí pH y alcalinidad y consultá un producto específico para metales o sarro.", "Evitá el contacto prolongado de objetos metálicos con el agua."],
+      "productos": ["Según el tipo de mancha: cloro y cepillado, o producto específico para metales/sarro"],
+      "seguridad": ["Probá cualquier quitamanchas en una zona chica primero."]
+    },
+    {
+      "id": "filtro-presion",
+      "categoria": "problemas",
+      "titulo": "Filtro con presión alta",
+      "resumen": "El manómetro marca más que lo normal: el filtro está saturado y filtra menos.",
+      "tags": ["filtro", "presión", "manómetro", "retrolavado"],
+      "sintomas": ["Manómetro por encima de su presión habitual de trabajo", "Poco caudal en los retornos"],
+      "causas": ["Arena o cartucho saturado de suciedad", "Después de flocular o de un agua verde", "Arena compactada o vieja"],
+      "pasos": ["Apagá la bomba antes de mover la multiválvula.", "Hacé retrolavado hasta que el visor salga limpio.", "Hacé enjuague unos segundos para asentar la arena.", "Volvé a filtrado y anotá la presión de trabajo con el filtro limpio.", "Si la presión sigue alta, revisá la arena o el cartucho."],
+      "productos": [],
+      "seguridad": ["Nunca muevas la multiválvula con la bomba encendida."]
+    },
+    {
+      "id": "cloro-no-sube",
+      "categoria": "problemas",
+      "titulo": "El cloro no sube o se consume rápido",
+      "resumen": "Hay mucha demanda de cloro: materia orgánica, algas incipientes o sol intenso.",
+      "tags": ["cloro", "demanda", "estabilizante", "sol"],
+      "sintomas": ["Agregás cloro y al día siguiente vuelve a cero"],
+      "causas": ["Algas incipientes o mucha materia orgánica", "Sol fuerte en piletas exteriores sin estabilizante", "pH alto"],
+      "pasos": ["Corregí el pH.", "Cepillá y aspirá.", "Medí el estabilizante: en piletas exteriores, el rango es 30–50 ppm.", "Hacé un shock y medí al día siguiente.", "Aplicá el cloro al atardecer."],
+      "productos": ["Cloro", "Estabilizante (si está bajo)"],
+      "seguridad": []
+    },
+    {
+      "id": "parametros",
+      "categoria": "quimica",
+      "titulo": "Los cuatro parámetros clave",
+      "resumen": "pH, cloro libre, alcalinidad total y estabilizante: qué son y en qué rango mantenerlos.",
+      "tags": ["ph", "cloro", "alcalinidad", "estabilizante", "rangos"],
+      "contenido": "## pH\nIndica si el agua es ácida o básica. **Rango objetivo: 7,2–7,6.** Con pH alto el cloro desinfecta mal y aparece turbidez; con pH bajo se irritan ojos y se corroen metales.\n\n## Cloro libre\nEs el cloro disponible para desinfectar. **Rango objetivo: 1–3 ppm.** Medilo en cada visita.\n\n## Alcalinidad total\nFunciona como amortiguador del pH. **Rango objetivo: 80–120 ppm.** Si está baja, el pH oscila; si está alta, cuesta bajar el pH.\n\n## Estabilizante (ácido cianúrico)\nProtege al cloro del sol en piletas exteriores. **Rango objetivo: 30–50 ppm.** No se elimina con productos: solo baja renovando agua.\n\n## Orden de corrección\n1. Alcalinidad\n2. pH\n3. Cloro\n4. Estabilizante (si corresponde)\n\nLos rangos se pueden ajustar en **Ajustes**."
+    },
+    {
+      "id": "como-medir",
+      "categoria": "quimica",
+      "titulo": "Cómo tomar una buena medición",
+      "resumen": "Una dosis bien calculada depende de una muestra bien tomada.",
+      "tags": ["medición", "kit", "muestra"],
+      "contenido": "1. Tomá la muestra lejos de los retornos y del skimmer.\n2. Sumergí el frasco boca abajo, a la altura del codo, y dalo vuelta bajo el agua.\n3. Seguí al pie de la letra las instrucciones de tu kit (cantidad de gotas, tiempos de lectura).\n4. Leé el color con luz natural, contra fondo blanco.\n5. Revisá el vencimiento de los reactivos.\n6. Después de aplicar productos, esperá a que el agua circule antes de volver a medir.\n\nAnotá siempre los valores en el registro de visita: así ves la evolución en la ficha del cliente."
+    },
+    {
+      "id": "dosificar",
+      "categoria": "quimica",
+      "titulo": "Cómo usar la calculadora",
+      "resumen": "Las dosis salen de la etiqueta de tus productos. Así se cargan.",
+      "tags": ["calculadora", "dosis", "etiqueta", "concentración"],
+      "contenido": "## Cargá cada producto en Stock\n- **Cloro líquido y granulado:** la concentración de cloro activo que dice la etiqueta (en g/L o en %).\n- **pH+, pH− y ácido muriático:** la dosis de etiqueta: cuánto producto, cada cuántos m³, cambia cuánto el pH.\n- **Clarificante, floculante y alguicida:** dosis de mantenimiento y de choque cada tantos m³.\n- **Pastillas triple acción:** cada cuántos m³ va una pastilla.\n\n## Fórmula del cloro\n1 ppm equivale a 1 g por m³. Gramos de activo = ppm a subir × m³. Producto = gramos de activo ÷ concentración.\n\n## Siempre\n- Dosificá en etapas y volvé a medir.\n- La calculadora es una guía: la validación es la medición."
+    },
+    {
+      "id": "limpieza-completa",
+      "categoria": "limpieza",
+      "titulo": "Limpieza completa paso a paso",
+      "resumen": "La rutina de cada visita, en el orden que rinde más.",
+      "tags": ["rutina", "limpieza", "visita", "aspirar", "cepillar"],
+      "pasos": ["Foto \"antes\" desde el mismo ángulo de siempre.", "Medí pH y cloro (y alcalinidad/estabilizante si corresponde).", "Sacá hojas y suciedad flotante con el sacahojas.", "Vaciá canastos de skimmers y el prefiltro de la bomba (con la bomba apagada).", "Cepillá paredes, escalones y línea de agua, de arriba hacia abajo y hacia el sumidero.", "Aspirá el fondo despacio, sin levantar sedimento.", "Revisá la presión del filtro; retrolavado y enjuague si hace falta.", "Aplicá los productos calculados, de a uno, con el filtro funcionando.", "Revisá equipos: pérdidas, ruidos, nivel de agua.", "Foto \"después\" y registro de la visita.", "Enviá el reporte al cliente por WhatsApp."],
+      "seguridad": ["Bomba apagada para abrir el prefiltro o mover la multiválvula.", "Guantes y antiparras al manipular químicos."]
+    },
+    {
+      "id": "multivalvula",
+      "categoria": "equipos",
+      "titulo": "Posiciones de la multiválvula",
+      "resumen": "Para qué sirve cada posición y cuándo usarla.",
+      "tags": ["multiválvula", "retrolavado", "enjuague", "desagote", "filtro"],
+      "contenido": "- **Filtrado:** uso normal. El agua pasa por el filtro y vuelve a la pileta.\n- **Retrolavado:** invierte el flujo para limpiar el filtro; el agua sucia va al desagüe.\n- **Enjuague:** después del retrolavado, asienta la arena y limpia el visor.\n- **Desagote / vaciado:** saca agua sin pasar por el filtro. Se usa para aspirar después de flocular.\n- **Recirculación:** mueve el agua sin filtrar (por ejemplo, para mezclar productos).\n- **Cerrado:** corta el paso. **Nunca** enciendas la bomba en esta posición.\n\n**Regla de oro:** apagá siempre la bomba antes de cambiar de posición."
+    },
+    {
+      "id": "bomba-aire",
+      "categoria": "equipos",
+      "titulo": "La bomba toma aire o pierde caudal",
+      "resumen": "Burbujas en los retornos o prefiltro con aire: hay una entrada de aire en la succión.",
+      "tags": ["bomba", "aire", "prefiltro", "succión"],
+      "sintomas": ["Burbujas en los retornos", "Prefiltro de la bomba con aire", "Ruido o bajo caudal"],
+      "causas": ["Nivel de agua bajo (el skimmer chupa aire)", "Tapa del prefiltro mal cerrada o junta dañada", "Uniones flojas en la succión"],
+      "pasos": ["Verificá que el nivel de agua llegue a la mitad de la boca del skimmer.", "Apagá la bomba, limpiá y lubricá la junta de la tapa del prefiltro.", "Cebá la bomba llenando el prefiltro con agua.", "Revisá uniones de la succión."],
+      "seguridad": ["No hagas funcionar la bomba en seco."]
+    },
+    {
+      "id": "frecuencia",
+      "categoria": "faq",
+      "titulo": "¿Cada cuánto hay que medir y tratar?",
+      "resumen": "En temporada alta, al menos en cada visita; el calor y el uso aumentan la demanda.",
+      "tags": ["frecuencia", "temporada", "verano"],
+      "contenido": "En temporada alta (octubre a marzo) medí pH y cloro **en cada visita**. Alcalinidad y estabilizante cambian más lento: alcanza con controlarlos periódicamente o cuando el pH o el cloro se comportan raro. Después de lluvias fuertes, olas de calor o fiestas, conviene una visita extra."
+    },
+    {
+      "id": "cuando-banarse",
+      "categoria": "faq",
+      "titulo": "¿Cuándo se pueden volver a bañar?",
+      "resumen": "Cuando los parámetros vuelvan al rango y se cumpla la espera de la etiqueta.",
+      "tags": ["baño", "espera", "shock"],
+      "contenido": "Después de un tratamiento, el baño se habilita cuando **pH (7,2–7,6) y cloro libre (1–3 ppm) estén en rango** y haya pasado el tiempo que indique la etiqueta de cada producto. Ante la duda, volvé a medir."
+    },
+    {
+      "id": "lluvia",
+      "categoria": "faq",
+      "titulo": "¿Qué hacer cuando llueve?",
+      "resumen": "La lluvia diluye el cloro, mueve el pH y trae tierra y hojas.",
+      "tags": ["lluvia", "tormenta", "clima"],
+      "contenido": "- Antes de una lluvia fuerte, evitá aplicar floculante o un shock que se va a diluir.\n- Después de la lluvia: sacá hojas, controlá el nivel de agua, medí pH y cloro y corregí.\n- La app te avisa en el Inicio cuando la probabilidad de lluvia supera el umbral que elegiste en Ajustes."
+    },
+    {
+      "id": "manejo-quimicos",
+      "categoria": "seguridad",
+      "titulo": "Manejo seguro de químicos",
+      "resumen": "Reglas básicas para trabajar sin riesgos.",
+      "tags": ["seguridad", "químicos", "epp", "almacenamiento"],
+      "contenido": "1. **Nunca mezcles** productos entre sí, especialmente cloro con ácidos: se liberan gases tóxicos.\n2. Agregá el producto **al agua**, nunca agua sobre el producto.\n3. Usá **guantes y antiparras**; evitá respirar polvos y vapores.\n4. Usá un balde distinto para cada producto y enjuagalo.\n5. Guardá los productos **cerrados, separados**, a la sombra y lejos del alcance de chicos y mascotas.\n6. No traspases productos a envases sin rotular.\n7. Si hay contacto con piel u ojos, lavá con abundante agua y seguí las indicaciones de la etiqueta. Tené a mano el teléfono de un centro de toxicología."
+    }
+  ]
+}
