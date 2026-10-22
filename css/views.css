@@ -194,7 +194,7 @@
 .sc-sub { font-size: 32px; font-weight: 600; margin-top: 10px; }
 .sc-body { flex: 1 0 auto; padding: 48px 72px 24px; }
 .sc-meta { display: flex; flex-direction: column; gap: 4px; color: #4A5D6D; font-size: 28px; }
-.sc-section-title { font-size: 24px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6F8291; margin: 44px 0 18px; }
+.sc-section-title { font-size: 24px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6F8291; margin: 56px 0 22px; }
 .sc-params { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .sc-param { background: #F3F7FB; border-radius: 28px; padding: 28px; }
 .sc-param { min-width: 0; }
@@ -211,7 +211,7 @@
 .sc-chip.ok { background: #DDF2EE; color: #1E8C7E; } .sc-chip.warn { background: #FBEFD6; color: #8A5A00; } .sc-chip.danger { background: #F9E1DF; color: #C2413B; }
 .sc-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .sc-photos figure { margin: 0; }
-.sc-photos img { width: 100%; height: 360px; object-fit: cover; border-radius: 28px; display: block; }
+.sc-photos img { width: 100%; height: 450px; object-fit: cover; border-radius: 28px; display: block; }
 .sc-photos figcaption { font-size: 24px; font-weight: 600; color: #4A5D6D; margin-top: 10px; }
 .sc-list { list-style: none; padding: 0; margin: 0; }
 .sc-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 2px solid #E4ECF3; font-size: 28px; white-space: nowrap; }
@@ -299,17 +299,27 @@
   .grid-2 .photo-box, .photo-box { max-height: 360px; }
 }
 
-/* Si el contenido no entra en 1080 × 1920, la tarjeta se compacta por niveles (ver fitCardHeight) */
-.share-card.compact .sc-body { padding-top: 36px; }
-.share-card.compact .sc-section-title { margin: 30px 0 14px; }
-.share-card.compact .sc-photos img { height: 250px; }
-.share-card.compact .sc-param { padding: 22px 26px; }
-.share-card.compact .sc-list li { padding: 10px 0; }
-.share-card.tight .sc-section-title { margin: 22px 0 10px; }
-.share-card.tight .sc-photos img { height: 180px; }
-.share-card.tight .sc-param { padding: 16px 24px; }
-.share-card.tight .sc-param-val { font-size: 44px; }
-.share-card.tight .sc-track { margin: 12px 0 10px; }
-.share-card.tight .sc-list li { padding: 6px 0; font-size: 26px; }
-.share-card.tight .sc-obs { font-size: 26px; }
-.share-card.tight .sc-foot { padding: 28px 72px 32px; }
+/* Si el contenido no entra en 1080 × 1350, se achican textos y tarjetas por niveles (ver fitCardHeight) */
+.share-card.compact .sc-params { gap: 18px; }
+.share-card.compact .sc-param { padding: 20px 24px; border-radius: 24px; }
+.share-card.compact .sc-param-name { font-size: 23px; }
+.share-card.compact .sc-param-val { font-size: 42px; }
+.share-card.compact .sc-unit { font-size: 22px; }
+.share-card.compact .sc-track { margin: 12px 0 10px; }
+.share-card.compact .sc-param-foot, .share-card.compact .sc-chip { font-size: 19px; }
+.share-card.compact .sc-photos img { height: 340px; }
+.share-card.compact .sc-list li { padding: 10px 0; font-size: 25px; }
+.share-card.compact .sc-meta, .share-card.compact .sc-obs { font-size: 25px; }
+.share-card.tight .sc-param { padding: 14px 20px; }
+.share-card.tight .sc-param-name { font-size: 20px; }
+.share-card.tight .sc-param-val { font-size: 34px; }
+.share-card.tight .sc-unit { font-size: 18px; }
+.share-card.tight .sc-track { height: 10px; margin: 8px 0 8px; }
+.share-card.tight .sc-mark { height: 22px; top: -6px; }
+.share-card.tight .sc-param-foot, .share-card.tight .sc-chip { font-size: 16px; }
+.share-card.tight .sc-photos img { height: 250px; border-radius: 20px; }
+.share-card.tight .sc-photos figcaption { font-size: 20px; }
+.share-card.tight .sc-list li { padding: 7px 0; font-size: 22px; }
+.share-card.tight .sc-meta, .share-card.tight .sc-obs { font-size: 22px; }
+.share-card.tight .sc-section-title { font-size: 20px; margin: 34px 0 14px; }
+.share-card.tight .sc-body { padding-top: 34px; }

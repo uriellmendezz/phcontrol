@@ -32,7 +32,7 @@ async function cardPhoto(ref) {
     const img = new Image();
     img.src = url;
     await img.decode();
-    const W = 936; const H = 720;
+    const W = 936; const H = 936;
     const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
     const canvas = document.createElement('canvas');
     canvas.width = W; canvas.height = H;
@@ -78,16 +78,29 @@ function fitProductNames(card) {
 }
 
 const CARD_W = 1080;
-const CARD_H = 1920; // formato historia de Instagram (9:16)
+const CARD_H = 1350;
 
-/** Deja la tarjeta en 1080 × 1920: si el contenido no entra, la compacta; si sobra, el pie queda abajo. */
+/**
+ * La tarjeta mide siempre 1080 × 1350. Si el contenido no entra, se achican textos y tarjetas por niveles
+ * (compact, tight) y, como último recurso, se escala el cuerpo. Si sobra lugar, el contenido queda arriba y el pie abajo.
+ */
 function fitCardHeight(card) {
   card.style.height = '';
   for (const level of ['compact', 'tight']) {
     if (card.scrollHeight <= CARD_H) break;
     card.classList.add(level);
   }
-  card.style.height = `${Math.max(CARD_H, card.scrollHeight)}px`;
+  const over = card.scrollHeight - CARD_H;
+  if (over > 0) {
+    const body = card.querySelector('.sc-body');
+    const h = body.offsetHeight;
+    const k = Math.max(0.6, (h - over) / h);
+    body.style.transformOrigin = 'top left';
+    body.style.transform = `scale(${k})`;
+    body.style.width = `${CARD_W / k}px`;
+    body.style.marginBottom = `${-(h * (1 - k))}px`;
+  }
+  card.style.height = `${CARD_H}px`;
 }
 
 export async function buildCard(v) {
