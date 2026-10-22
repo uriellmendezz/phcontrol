@@ -6,11 +6,11 @@
 .hero {
   position: relative; overflow: hidden;
   margin: var(--sp-2) 0 0; border-radius: var(--radius-lg);
-  background: var(--brand-blue) url("../assets/img/ondas.svg") center / cover no-repeat;
+  background: var(--brand-blue);
   color: var(--brand-white);
   min-height: 148px;
 }
-.hero-inner { position: relative; padding: var(--sp-6) var(--sp-5); }
+.hero-inner { position: relative; z-index: 1; padding: var(--sp-6) var(--sp-5); }
 .hero-kicker { font-size: var(--fs-sm); font-weight: var(--fw-semibold); opacity: .95; }
 .hero-title { font-size: var(--fs-3xl); margin-top: 4px; }
 .hero-sub { margin-top: 6px; font-weight: var(--fw-semibold); }
@@ -150,7 +150,7 @@
 }
 .fab:active { transform: scale(.92); }
 .fab svg { width: 26px; height: 26px; }
-@media (min-width: 900px) { .fab { right: calc(50% - var(--maxw) / 2); } }
+@media (min-width: 900px) and (max-width: 1023px) { .fab { right: calc(50% - var(--maxw) / 2); } }
 
 /* ---------- Calculadora ---------- */
 .calc-opt { display: grid; gap: 4px; padding: var(--sp-3); border-radius: var(--radius-sm); background: var(--surface-2); }
@@ -237,3 +237,63 @@
 .map-pop-actions { display: flex; gap: 16px; margin-top: 6px; }
 .map-pop-actions a { color: #0084B9; font-weight: 700; text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
 .leaflet-container { font-family: var(--font); }
+
+/* ---------- Ingreso ---------- */
+.login {
+  position: fixed; inset: 0; z-index: 150;
+  display: grid; place-items: center; overflow-y: auto;
+  padding: calc(var(--sp-6) + var(--safe-top)) var(--sp-4) calc(var(--sp-6) + var(--safe-bottom));
+  background: var(--brand-blue);
+  animation: fade-in var(--dur) var(--ease) both;
+}
+.login.closing { animation: fade-out var(--dur) var(--ease) both; }
+.login-inner { position: relative; width: 100%; max-width: 400px; display: grid; justify-items: center; gap: var(--sp-6); }
+.login-logo { width: 200px; height: auto; }
+.login-card {
+  width: 100%; background: var(--surface); color: var(--text);
+  border-radius: var(--radius-lg); padding: var(--sp-6) var(--sp-5);
+  animation: rise-in 420ms var(--ease) both;
+}
+.login-title { font-size: var(--fs-2xl); }
+.login-help { text-align: center; }
+@keyframes rise-in { from { opacity: 0; transform: translate3d(0, 16px, 0); } to { opacity: 1; transform: none; } }
+
+/* ---------- Ondas animadas (inicio e ingreso) ----------
+   Dos capas de líneas que se desplazan en sentidos opuestos. Solo se anima transform (60 fps).
+   El patrón mide 520 px de ancho, así que moverlo 520 px vuelve exactamente al inicio. */
+.waves-anim { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.waves-anim::before, .waves-anim::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0;
+  width: calc(100% + 520px);
+  background: url("../assets/img/ondas-lineas.svg") repeat 0 0 / 520px 540px;
+  will-change: transform;
+}
+.waves-anim::before { opacity: .16; animation: waves-move 26s linear infinite; }
+.waves-anim::after { top: -32px; opacity: .08; animation: waves-move 40s linear infinite reverse; }
+@keyframes waves-move { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-520px, 0, 0); } }
+
+/* ---------- Entrada escalonada de listas y tarjetas ---------- */
+.view-enter .list > *, .view-enter .dest-scroller > *, .view-enter .stack > .card, .view-enter .stack > .alert {
+  animation: item-in 340ms var(--ease) backwards;
+}
+.view-enter .list > :nth-child(2), .view-enter .dest-scroller > :nth-child(2), .view-enter .stack > :nth-child(2) { animation-delay: 40ms; }
+.view-enter .list > :nth-child(3), .view-enter .dest-scroller > :nth-child(3), .view-enter .stack > :nth-child(3) { animation-delay: 80ms; }
+.view-enter .list > :nth-child(4), .view-enter .stack > :nth-child(4) { animation-delay: 120ms; }
+.view-enter .list > :nth-child(5), .view-enter .stack > :nth-child(5) { animation-delay: 160ms; }
+.view-enter .list > :nth-child(n+6) { animation-delay: 200ms; }
+@keyframes item-in { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
+
+/* ---------- Versión PC (1024 px o más) ---------- */
+@media (min-width: 1024px) {
+  .hero { min-height: 180px; }
+  .hero-inner { padding: var(--sp-8) var(--sp-8); }
+  .home-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); column-gap: var(--sp-8); align-items: start; grid-auto-flow: row dense; }
+  .home-prox, .home-main { grid-column: 1; }
+  .home-side { grid-column: 2; }
+  .dest-scroller { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; margin: 0; padding: 0; }
+  .weather-strip { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; }
+  .chart-box { height: 260px; }
+  .fab { right: 40px; bottom: 40px; }
+  .map-box { height: calc(100dvh - var(--header-h) - 230px); }
+  .grid-2 .photo-box, .photo-box { max-height: 360px; }
+}

@@ -33,6 +33,7 @@ export default async function inicio(root, ctx) {
 
     mount(root, html`
       <section class="hero" aria-label="Resumen del día">
+        <div class="waves-anim" aria-hidden="true"></div>
         <div class="hero-inner">
           <p class="hero-kicker">${capFirst(longDate(t))}</p>
           <h1 class="hero-title">${greeting()}${cfg().negocio.titular ? `, ${cfg().negocio.titular.split(' ')[0]}` : ''}</h1>
@@ -42,30 +43,32 @@ export default async function inicio(root, ctx) {
 
       ${!isConfigured() ? html`<a class="alert warn" href="#/ajustes" style="margin-top:16px;text-decoration:none;color:inherit">${icon('cloud')}<div><p class="alert-title">Conectá tu Google Sheets</p><p>Tus datos se guardan en el teléfono. Configurá la conexión en Ajustes para tener respaldo.</p></div></a>` : ''}
 
-      <section class="section" aria-labelledby="h-prox">
+      <div class="home-grid">
+      <section class="section home-prox" aria-labelledby="h-prox">
         <div class="section-head"><h2 class="section-title" id="h-prox">Próximos destinos</h2><a class="section-link" href="#/calendario">Ver agenda</a></div>
         ${prox.length ? html`<div class="dest-scroller">${prox.slice(0, 8).map((a) => destCard(a))}</div>`
           : emptyState({ ic: 'calendar', title: 'Sin visitas próximas', text: hasData ? 'Agendá la próxima visita para verla acá.' : 'Empezá cargando tu primer cliente.', action: hasData ? { label: 'Programar visita', href: '#/agenda/nueva', icon: 'plus' } : { label: 'Nuevo cliente', href: '#/clientes/nuevo', icon: 'plus' } })}
       </section>
 
-      ${alerts.length ? html`<section class="section" aria-labelledby="h-alertas">
+      ${alerts.length ? html`<section class="section home-side" aria-labelledby="h-alertas">
         <div class="section-head"><h2 class="section-title" id="h-alertas">Atención</h2></div>
         <div class="stack">${alerts.map((a) => html`<a class="alert ${a.level} alert-link" href="${a.href}">${icon(a.ic)}<div class="grow"><p class="alert-title">${a.title}</p><p>${a.text}</p></div>${icon('chevron', 'li-chevron')}</a>`)}</div>
       </section>` : ''}
 
-      <section class="section" aria-labelledby="h-clima">
+      <section class="section home-side" aria-labelledby="h-clima">
         <div class="section-head"><h2 class="section-title" id="h-clima">Clima · ${cfg().clima.ciudad}</h2>
           ${fc?.stale ? html`<span class="badge">Guardado ${fdatetime(new Date(fc.fetchedAt).toISOString())}</span>` : ''}</div>
         ${fc ? weatherStrip(fc) : fcError ? html`<div class="card card-soft small muted">${icon('wifiOff')} ${fcError}</div>` : html`<div class="skeleton" style="height:112px"></div>`}
       </section>
 
-      <section class="section" aria-labelledby="h-ing">
+      <section class="section home-main" aria-labelledby="h-ing">
         <div class="section-head"><h2 class="section-title" id="h-ing">Ingresos</h2><a class="section-link" href="#/ventas/nueva">Registrar venta</a></div>
         <div class="segmented" role="group" aria-label="Período">
           ${Object.entries(PERIODOS).map(([k, l]) => html`<button type="button" data-periodo="${k}" aria-pressed="${k === periodo}">${l}</button>`)}
         </div>
         ${incomeBlock()}
       </section>
+      </div>
     `);
     drawChart();
   }

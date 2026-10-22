@@ -2,7 +2,7 @@ import { html, mount, on, formData, showErrors } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
 import { pageHead } from '../ui/components.js';
 import { settings, saveSettings, DEFAULTS } from '../data/settings.js';
-import { getConnection, saveConnection, call, isConfigured } from '../data/api.js';
+import { getConnection, saveConnection, call, isConfigured, logout } from '../data/api.js';
 import { getStatus, syncNow, fullResync, getQueue, discardFailed, refreshPending } from '../data/sync.js';
 import { bus, getRaw } from '../data/store.js';
 import { ENTITIES } from '../data/schema.js';
@@ -33,9 +33,16 @@ export default async function ajustes(root, ctx) {
     </section>
 
     <section class="card stack" aria-labelledby="h-con">
-      <h2 class="section-title" id="h-con">Conexión con Google Sheets</h2>
-      <p class="small muted">Pegá la URL del Web App de Apps Script y el token secreto. Quedan solo en este teléfono, nunca en el repositorio.</p>
-      <form class="form" id="con-form" novalidate>
+      <h2 class="section-title" id="h-con">Cuenta y sincronización</h2>
+      <div class="row-between">
+        <div><p class="strong">${conn.usuario ? `Conectado como ${conn.usuario}` : conn.token ? 'Conectado con token (modo avanzado)' : 'Sin sesión'}</p>
+          <p class="small muted">Tus datos se guardan en tu Google Sheets privada.</p></div>
+        ${conn.token ? html`<button class="btn btn-sm btn-danger" type="button" data-action="logout">Cerrar sesión</button>` : ''}
+      </div>
+      <div id="sync-box"></div>
+      <details class="details"><summary>Conexión avanzada (URL y token)</summary>
+      <p class="small muted" style="margin-top:8px">Solo si necesitás conectar sin usuario, con el token maestro de secreto.gs. Queda guardado solo en este dispositivo.</p>
+      <form class="form" id="con-form" novalidate style="margin-top:12px">
         <div class="field"><label for="url">URL del Web App</label><input class="input" id="url" name="url" type="url" inputmode="url" placeholder="https://script.google.com/macros/s/…/exec" value="${conn.url}" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
         <div class="field"><label for="token">Token secreto</label>
           <div class="input-group"><input class="input" id="token" name="token" type="password" value="${conn.token}" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -45,7 +52,7 @@ export default async function ajustes(root, ctx) {
           <button class="btn" type="submit">${icon('check')}Guardar conexión</button>
         </div>
       </form>
-      <div id="sync-box"></div>
+      </details>
     </section>
 
     <form id="cfg-form" class="stack-lg" style="margin-top:20px" novalidate>
@@ -189,13 +196,24 @@ export default async function ajustes(root, ctx) {
     const { d, errors } = readConn();
     if (Object.keys(errors).length) { showErrors(conForm, errors); return; }
     showErrors(conForm, {});
-    await saveConnection(d);
+    await saveConnection({ ...d, usuario: '' });
     toast('Conexión guardada. Sincronizando…');
     await refreshPending();
     try {
       await call('setup', {}, { timeout: 30000 });
     } catch { /* se informa en el estado */ }
     syncNow();
+  });
+  on(root, 'click', '[data-action="logout"]', async () => {
+    const pending = await idb.count('cola');
+    const ok = await confirmDialog({
+      title: 'Cerrar sesión',
+      message: pending ? `Tenés ${pending} cambio(s) sin subir: se quedan en este teléfono y se suben cuando vuelvas a ingresar.` : 'Vas a tener que ingresar de nuevo con tu usuario y contraseña. Los datos de este teléfono no se borran.',
+      confirm: 'Cerrar sesión', danger: true
+    });
+    if (!ok) return;
+    await logout();
+    location.reload();
   });
   on(root, 'click', '[data-action="sync"]', () => syncNow());
   on(root, 'click', '[data-action="full"]', async () => {

@@ -7,7 +7,7 @@ import { toast } from '../ui/toast.js';
 import { navigate } from '../router.js';
 import { currentPosition, parseMapsLink } from '../util/geo.js';
 import { parseNum, fdatetime } from '../util/format.js';
-import { piletaFields, readPileta, validatePileta } from './pileta-form.js';
+import { piletaFields, readPileta, validatePileta, bindPiletaFields, piletaTieneDatos } from './pileta-form.js';
 
 export default async function clienteForm(root, ctx) {
   const id = ctx.params.id;
@@ -80,6 +80,7 @@ export default async function clienteForm(root, ctx) {
   const persist = debounce(() => saveDraft(draftKey, formData(form)), 400);
   form.addEventListener('input', persist);
   bindPhotoFields(form, persist);
+  if (firstPool) bindPiletaFields(form, 'p_', persist);
 
   on(root, 'click', '[data-action="gps"]', async (e, b) => {
     b.classList.add('is-loading');
@@ -125,7 +126,7 @@ export default async function clienteForm(root, ctx) {
         direccion: d.direccion, barrio: d.barrio, lat: d.lat, lng: d.lng,
         tarifa_tipo: d.tarifa_tipo, tarifa_monto: tm, estado: d.estado, notas: d.notas
       });
-      if (pileta && (pileta.m3 !== '' || pileta.material || pileta.forma || pileta.bomba || pileta.filtro || pileta.cloracion || d.p_foto)) {
+      if (pileta && (piletaTieneDatos(pileta) || d.p_foto)) {
         await save('piletas', { ...pileta, cliente_id: rec.id, foto: d.p_foto, nombre: pileta.nombre || 'Pileta principal' });
       }
       persist.cancel(); await clearDraft(draftKey);

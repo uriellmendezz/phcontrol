@@ -9,7 +9,7 @@ export const ENTITIES = {
   },
   piletas: {
     sheet: 'Piletas',
-    fields: { cliente_id: 's', nombre: 's', m3: 'n', forma: 's', material: 's', bomba: 's', filtro: 's', cloracion: 's', foto: 's', notas: 's' }
+    fields: { cliente_id: 's', nombre: 's', m3: 'n', largo: 'n', ancho: 'n', profundidad: 'n', forma: 's', material: 's', bomba_tiene: 's', bomba: 's', filtro_tiene: 's', filtro: 's', filtro_arena: 's', cloracion: 's', foto: 's', notas: 's' }
   },
   visitas: {
     sheet: 'Visitas',

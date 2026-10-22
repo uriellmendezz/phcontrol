@@ -81,10 +81,14 @@ phcontrol/
 3. **Implementar** → copiá la **URL de la aplicación web** (termina en `/exec`).
 4. Si después cambiás `Code.gs`: **Implementar → Administrar implementaciones → Editar (lápiz) → Versión: Nueva versión → Implementar**. Así la URL no cambia.
 
-### 2.6 Conectar la PWA
-1. Abrí la app → **Más → Ajustes → Conexión con Google Sheets**.
-2. Pegá la URL `/exec` y el token → **Probar** → **Guardar conexión**.
-3. El indicador del header pasa a **Sincronizado**. La URL y el token quedan solo en el teléfono.
+### 2.6 Crear tu usuario e ingresar
+1. Abrí la hoja **phcontrol** en Google Sheets. Arriba aparece el menú **phcontrol** (si no está, recargá la hoja).
+2. **phcontrol → Crear o cambiar usuario**: elegí usuario y contraseña (mínimo 8 caracteres). La primera vez Google pide autorizar el script.
+3. En la app, ingresá con ese usuario y contraseña. La sesión dura un año en cada dispositivo y la app sigue funcionando sin señal.
+4. **phcontrol → Cerrar sesión en todos los dispositivos** invalida todas las sesiones (por ejemplo, si perdés el teléfono).
+
+La URL del Web App está en `js/config.js` (no es secreta). El token maestro de `secreto.gs` sigue sirviendo como acceso avanzado
+(Ajustes → Conexión avanzada) y nunca se sube al repositorio. La contraseña se guarda en el script solo como hash.
 
 ### ¿Por qué `Content-Type: text/plain`? (CORS)
 Apps Script no responde a las peticiones `OPTIONS` (preflight de CORS). Un `POST` con `Content-Type: application/json`

@@ -1,7 +1,8 @@
 /** Arranque de phcontrol. */
 import { openDB, requestPersistence } from './data/db.js';
 import { loadAll, bus } from './data/store.js';
-import { loadConnection } from './data/api.js';
+import { loadConnection, isConfigured, saveConnection, getConnection } from './data/api.js';
+import { showLogin } from './views/login.js';
 import { initSync, getStatus, syncNow } from './data/sync.js';
 import { startRouter, navigate } from './router.js';
 import { toast } from './ui/toast.js';
@@ -114,10 +115,22 @@ async function boot() {
   }
   requestPersistence();
   setupSyncPill();
-  initSync();
   setupUnloadWarning();
-  startRouter();
-  setTimeout(hideSplash, 250);
+  // Si el servidor rechaza la sesión (vencida o cerrada desde la hoja), se pide ingresar de nuevo.
+  // Los datos del teléfono no se borran: se suben al volver a ingresar.
+  bus.addEventListener('auth-expired', async () => {
+    if (document.getElementById('login')) return;
+    await saveConnection({ url: getConnection().url, token: '', usuario: '' });
+    showLogin({ message: 'Tu sesión venció o se cerró. Volvé a ingresar.', onDone: () => syncNow() });
+  });
+  const start = () => { initSync(); startRouter(); };
+  if (isConfigured()) {
+    start();
+    setTimeout(hideSplash, 250);
+  } else {
+    hideSplash();
+    showLogin({ onDone: start });
+  }
 }
 
 boot();

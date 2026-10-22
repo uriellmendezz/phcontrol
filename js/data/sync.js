@@ -10,7 +10,7 @@
  * remoto no pisa a uno local con cambios todavía en la cola.
  */
 import { idb } from './db.js';
-import { call, isConfigured } from './api.js';
+import { call, isConfigured, isAuthError } from './api.js';
 import { ENTITIES, SHEET_TO_ENTITY, normalize, serialize } from './schema.js';
 import { emit, applyRemote, putLocal, getRaw, setWriteHook } from './store.js';
 import { upload, isLocalRef } from './photos.js';
@@ -69,6 +69,7 @@ async function doSync() {
     await refreshPending();
     emit('change', { entity: '*' });
   } catch (e) {
+    if (isAuthError(e)) emit('auth-expired', {});
     setStatus({ state: 'error', error: e.message || String(e) });
     await refreshPending();
     backoff = Math.min(backoff ? backoff * 2 : 30000, 5 * 60000);

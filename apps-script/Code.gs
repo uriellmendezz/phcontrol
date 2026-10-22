@@ -37,10 +37,16 @@ var SCHEMA = {
     cliente_id: { type: 'string', required: true },
     nombre: { type: 'string', max: 120 },
     m3: { type: 'number', min: 0, max: 10000 },
+    largo: { type: 'number', min: 0, max: 200 },
+    ancho: { type: 'number', min: 0, max: 200 },
+    profundidad: { type: 'number', min: 0, max: 20 },
     forma: { type: 'string', max: 80 },
     material: { type: 'string', max: 80 },
+    bomba_tiene: { type: 'enum', values: ['si', 'no', ''] },
     bomba: { type: 'string', max: 160 },
+    filtro_tiene: { type: 'enum', values: ['si', 'no', ''] },
     filtro: { type: 'string', max: 160 },
+    filtro_arena: { type: 'string', max: 120 },
     cloracion: { type: 'string', max: 160 },
     foto: { type: 'string', max: 200 },
     notas: { type: 'string', max: 4000 }
@@ -131,8 +137,11 @@ function doPost(e) {
     return json_({ ok: false, error: 'JSON inválido' });
   }
   try {
+    // Ingreso con usuario y contraseña: única acción que no necesita token.
+    if (req.action === 'login') return json_(login_(req));
     checkToken_(req.token);
     switch (req.action) {
+      case 'logout': return json_(logout_(req.token));
       case 'ping': return json_({ ok: true, now: nowIso_() });
       case 'setup': return json_({ ok: true, sheets: setup_() });
       case 'pull': return json_(pull_(req.since));
@@ -164,11 +173,104 @@ function onEdit(e) {
 
 /* ---------------- Acciones ---------------- */
 
+/** Acepta el token maestro (secreto.gs / Propiedades) o una sesión iniciada con usuario y contraseña. */
 function checkToken_(token) {
   var expected = PropertiesService.getScriptProperties().getProperty('TOKEN') ||
     (typeof TOKEN_INICIAL === 'string' && TOKEN_INICIAL.length >= 16 ? TOKEN_INICIAL : '');
-  if (!expected) throw new Error('Falta configurar la propiedad TOKEN en el script.');
-  if (!token || token !== expected) throw new Error('Token inválido');
+  if (token && expected && token === expected) return;
+  if (token && sessionValid_(token)) return;
+  throw new Error('Sesión vencida o inválida. Volvé a ingresar.');
+}
+
+/* ---------------- Usuario y sesiones ---------------- */
+
+var SESSION_DAYS = 365;
+var MAX_FAILS = 5;
+
+function hash_(text) {
+  var bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, text, Utilities.Charset.UTF_8);
+  return bytes.map(function (b) { return ('0' + (b & 0xff).toString(16)).slice(-2); }).join('');
+}
+
+function passwordHash_(password, salt) {
+  var h = salt + ':' + password;
+  for (var i = 0; i < 2000; i++) h = hash_(salt + h); // estiramiento: hace caro probar contraseñas
+  return h;
+}
+
+function sessions_() {
+  try { return JSON.parse(PropertiesService.getScriptProperties().getProperty('SESIONES') || '{}'); } catch (e) { return {}; }
+}
+function saveSessions_(s) {
+  var now = Date.now();
+  Object.keys(s).forEach(function (k) { if (s[k].exp < now) delete s[k]; });
+  PropertiesService.getScriptProperties().setProperty('SESIONES', JSON.stringify(s));
+}
+function sessionValid_(token) {
+  var s = sessions_()[hash_(token)];
+  return !!(s && s.exp > Date.now());
+}
+
+function login_(req) {
+  var props = PropertiesService.getScriptProperties();
+  var user = props.getProperty('USUARIO');
+  if (!user) throw new Error('Todavía no creaste tu usuario. Abrí la hoja phcontrol → menú phcontrol → Crear o cambiar usuario.');
+  var cache = CacheService.getScriptCache();
+  var fails = Number(cache.get('login_fails') || 0);
+  if (fails >= MAX_FAILS) throw new Error('Demasiados intentos fallidos. Esperá 15 minutos.');
+  var ok = String(req.usuario || '').trim().toLowerCase() === user.toLowerCase() &&
+    passwordHash_(String(req.password || ''), props.getProperty('PASS_SALT')) === props.getProperty('PASS_HASH');
+  if (!ok) {
+    cache.put('login_fails', String(fails + 1), 15 * 60);
+    Utilities.sleep(800);
+    throw new Error('Usuario o contraseña incorrectos.');
+  }
+  cache.remove('login_fails');
+  var token = Utilities.getUuid().replace(/-/g, '') + Utilities.getUuid().replace(/-/g, '');
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var s = sessions_();
+    s[hash_(token)] = { exp: Date.now() + SESSION_DAYS * 864e5, disp: String(req.dispositivo || '').slice(0, 80), creado: nowIso_() };
+    saveSessions_(s);
+  } finally { lock.releaseLock(); }
+  return { ok: true, token: token, usuario: user };
+}
+
+function logout_(token) {
+  var s = sessions_();
+  delete s[hash_(token)];
+  saveSessions_(s);
+  return { ok: true };
+}
+
+/** Menú en la hoja: el usuario y la contraseña se cargan acá (nunca en el código). */
+function onOpen() {
+  SpreadsheetApp.getUi().createMenu('phcontrol')
+    .addItem('Crear o cambiar usuario', 'menuUsuario')
+    .addItem('Cerrar sesión en todos los dispositivos', 'menuCerrarSesiones')
+    .addToUi();
+}
+
+function menuUsuario() {
+  var ui = SpreadsheetApp.getUi();
+  var r1 = ui.prompt('phcontrol · Usuario', 'Elegí tu nombre de usuario (por ejemplo: uriel)', ui.ButtonSet.OK_CANCEL);
+  if (r1.getSelectedButton() !== ui.Button.OK) return;
+  var user = r1.getResponseText().trim();
+  if (!/^[A-Za-z0-9._-]{3,40}$/.test(user)) { ui.alert('Usuario inválido: usá de 3 a 40 letras, números, punto o guion.'); return; }
+  var r2 = ui.prompt('phcontrol · Contraseña', 'Elegí una contraseña de al menos 8 caracteres.', ui.ButtonSet.OK_CANCEL);
+  if (r2.getSelectedButton() !== ui.Button.OK) return;
+  var pass = r2.getResponseText();
+  if (pass.length < 8) { ui.alert('La contraseña tiene que tener al menos 8 caracteres.'); return; }
+  var salt = Utilities.getUuid();
+  var props = PropertiesService.getScriptProperties();
+  props.setProperties({ USUARIO: user, PASS_SALT: salt, PASS_HASH: passwordHash_(pass, salt), SESIONES: '{}' });
+  ui.alert('Listo. Ya podés ingresar a la app con el usuario "' + user + '". Las sesiones anteriores se cerraron.');
+}
+
+function menuCerrarSesiones() {
+  PropertiesService.getScriptProperties().setProperty('SESIONES', '{}');
+  SpreadsheetApp.getUi().alert('Se cerró la sesión en todos los dispositivos.');
 }
 
 /** Crea las pestañas que falten y agrega columnas nuevas sin tocar las existentes. */

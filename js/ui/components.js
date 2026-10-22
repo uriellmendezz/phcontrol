@@ -156,8 +156,8 @@ const PHOTO_HINT = 'Tocar para sacar o elegir una foto';
 
 /**
  * Campo de foto con vista previa. Guarda la referencia en un hidden `name`.
- * El recuadro abre el selector del sistema (cámara o galería); además hay botones directos.
- * Solo el botón "Cámara" lleva `capture`: ese atributo obliga a usar la cámara.
+ * Un solo control: sin el atributo `capture`, el sistema ofrece elegir entre la cámara y la galería
+ * (en iPhone, "Fototeca / Tomar foto"; en Android, cámara o archivos).
  */
 export function photoField(name, label, ref = '') {
   return html`<div class="field photo-input" data-photo-field="${name}">
@@ -166,10 +166,6 @@ export function photoField(name, label, ref = '') {
       ${ref ? html`<img data-photo="${ref}" alt="${label}" class="img-ph">` : html`<div class="photo-placeholder">${icon('camera')}<span>${PHOTO_HINT}</span></div>`}
       <input type="file" accept="image/*" aria-label="${label}: sacar o elegir foto">
       ${ref ? html`<button type="button" class="icon-btn photo-remove" data-remove-photo aria-label="Quitar foto">${icon('close')}</button>` : ''}
-    </div>
-    <div class="photo-actions">
-      <label class="btn btn-sm btn-soft">${icon('camera')}Cámara<input class="photo-file" type="file" accept="image/*" capture="environment" aria-label="${label}: sacar foto con la cámara"></label>
-      <label class="btn btn-sm btn-soft">${icon('image')}Galería<input class="photo-file" type="file" accept="image/*" aria-label="${label}: elegir de la galería"></label>
     </div>
     <input type="hidden" name="${name}" value="${ref}">
   </div>`;

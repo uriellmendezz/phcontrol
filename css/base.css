@@ -151,7 +151,65 @@ body.kb-open .tabbar { transform: translate3d(0, 110%, 0); }
   }
 }
 
-@media (min-width: 900px) {
+/* Etiqueta del botón central: oculta en el celular (solo ícono), visible en el menú lateral de PC */
+.tab-main-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tab-desk { display: none !important; }
+
+@media (min-width: 900px) and (max-width: 1023px) {
   .tabbar { left: 50%; right: auto; width: 520px; transform: translateX(-50%); bottom: 16px; border-radius: 22px; height: var(--tabbar-h); padding: 0; box-shadow: var(--shadow), 0 0 0 1px var(--border); }
   body.kb-open .tabbar { transform: translateX(-50%); }
+}
+
+/* =========================================================
+   Versión PC (1024 px o más). Nada de esto afecta al celular.
+   ========================================================= */
+@media (min-width: 1024px) {
+  :root { --side-w: 248px; --maxw: 1120px; --header-h: 64px; }
+
+  .app-header { border-bottom: 1px solid var(--border); padding-left: 28px; padding-right: 28px; }
+  .header-logo img { width: 140px; }
+
+  /* La barra inferior se convierte en menú lateral */
+  .tabbar {
+    top: var(--header-h); bottom: 0; left: 0; right: auto; width: var(--side-w); height: auto;
+    display: flex; flex-direction: column; gap: 2px;
+    padding: var(--sp-5) var(--sp-3);
+    border-right: 1px solid var(--border); box-shadow: none; border-radius: 0; transform: none;
+    overflow-y: auto;
+  }
+  body.kb-open .tabbar { transform: none; }
+  .tab {
+    flex-direction: row; justify-content: flex-start; gap: var(--sp-3);
+    min-height: 44px; padding: 0 var(--sp-3); border-radius: var(--radius-sm);
+    font-size: var(--fs-md); color: var(--text-2);
+  }
+  .tab:hover { background: var(--surface-2); }
+  .tab:active { transform: none; }
+  .tab svg { width: 22px; height: 22px; }
+  .tab[aria-current="page"] { background: var(--surface-2); color: var(--text); }
+  .tab-more { display: none; }
+  .tab-desk { display: flex !important; }
+  .tab-main { order: -1; margin-bottom: var(--sp-3); background: var(--primary); color: var(--primary-ink) !important; justify-content: center; }
+  .tab-main:hover { background: var(--primary); filter: brightness(1.06); }
+  .tab-main span.tab-fab { width: auto; height: auto; background: none; border-radius: 0; }
+  .tab-main-label { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
+
+  /* El contenido ocupa el espacio a la derecha del menú */
+  .scroller { left: var(--side-w); }
+  .view { max-width: var(--maxw); padding: calc(var(--header-h) + var(--sp-4)) 40px 64px; }
+  .view > form.form, .view > .form { max-width: 760px; }
+  .page-title { font-size: var(--fs-3xl); }
+
+  .toast-root { left: var(--side-w); bottom: var(--sp-6); }
+  .form-actions { bottom: var(--sp-4); }
+
+  /* Listas en dos columnas */
+  .list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .list > .list-month { grid-column: 1 / -1; }
+}
+
+/* Tarjetas y listas con efecto al pasar el mouse (solo dispositivos con mouse) */
+@media (hover: hover) and (min-width: 1024px) {
+  .list-item, .card.tap { transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast); }
+  .list-item:hover, .card.tap:hover { border-color: var(--accent-strong); }
 }

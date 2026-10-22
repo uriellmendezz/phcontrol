@@ -40,7 +40,16 @@ const TABS = [
   { href: '#/calendario', label: 'Agenda', ic: 'calendar', match: ['calendario', 'agenda'] },
   { href: '#/visitas/nueva', label: 'Registrar', ic: 'plus', match: ['visitas/nueva'], main: true },
   { href: '#/clientes', label: 'Clientes', ic: 'users', match: ['clientes', 'piletas', 'mapa'] },
-  { href: '#/mas', label: 'Más', ic: 'more', match: ['mas', 'visitas', 'calculadora', 'stock', 'ventas', 'teorico', 'ajustes'] }
+  { href: '#/mas', label: 'Más', ic: 'more', match: ['mas', 'visitas', 'calculadora', 'stock', 'ventas', 'teorico', 'ajustes'], more: true }
+];
+/** Accesos extra del menú lateral en PC (en el celular están en "Más"). */
+const DESK_TABS = [
+  { href: '#/visitas', label: 'Visitas', ic: 'list', match: ['visitas'] },
+  { href: '#/mapa', label: 'Mapa', ic: 'pin', match: ['mapa'] },
+  { href: '#/calculadora', label: 'Calculadora', ic: 'calc', match: ['calculadora'] },
+  { href: '#/stock', label: 'Stock y ventas', ic: 'box', match: ['stock', 'ventas'] },
+  { href: '#/teorico', label: 'Teórico', ic: 'book', match: ['teorico'] },
+  { href: '#/ajustes', label: 'Ajustes', ic: 'settings', match: ['ajustes'] }
 ];
 
 function match(path) {
@@ -79,11 +88,16 @@ function renderTabs(path) {
   const key = path.replace(/^\//, '');
   const active = TABS.find((t) => t.match.some((m) => key === m)) ||
     TABS.find((t) => t.match.some((m) => key.startsWith(m + '/') || key === m)) || TABS[4];
-  mount(document.getElementById('tabbar'), TABS.map((t) => html`
-    <a class="tab ${t.main ? 'tab-main' : ''}" href="${t.href}" ${t === active ? html`aria-current="page"` : ''}>
+  const desk = key === 'visitas/nueva' ? null : DESK_TABS.find((t) => t.match.some((m) => key === m || key.startsWith(m + '/')));
+  mount(document.getElementById('tabbar'), [
+    ...TABS.map((t) => html`
+    <a class="tab ${t.main ? 'tab-main' : ''} ${t.more ? 'tab-more' : ''}" href="${t.href}" ${t === active && !(desk && t.more) ? html`aria-current="page"` : ''}>
       ${t.main ? html`<span class="tab-fab">${icon(t.ic)}</span>` : icon(t.ic)}
-      <span ${t.main ? html`class="sr-only"` : ''}>${t.label}</span>
-    </a>`));
+      <span class="${t.main ? 'tab-main-label' : ''}">${t.label}</span>
+    </a>`),
+    ...DESK_TABS.map((t) => html`
+    <a class="tab tab-desk" href="${t.href}" ${t === desk ? html`aria-current="page"` : ''}>${icon(t.ic)}<span>${t.label}</span></a>`)
+  ]);
 }
 
 async function render() {
@@ -102,6 +116,8 @@ async function render() {
   const old = viewEl();
   const root = old.cloneNode(false);
   root.classList.add('view-enter');
+  // Las animaciones de entrada son solo al abrir la pantalla, no en cada actualización de datos.
+  setTimeout(() => root.classList.remove('view-enter'), 700);
   old.replaceWith(root);
   document.getElementById('scroller').scrollTo(0, 0);
   mount(root, skeletonPage());

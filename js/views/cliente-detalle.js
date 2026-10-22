@@ -61,8 +61,9 @@ export default async function clienteDetalle(root, ctx) {
               ${p.m3 !== '' ? html`<dt>Volumen</dt><dd>${num(p.m3)} m³</dd>` : ''}
               ${p.material ? html`<dt>Material</dt><dd>${p.material}</dd>` : ''}
               ${p.forma ? html`<dt>Forma</dt><dd>${p.forma}</dd>` : ''}
-              ${p.bomba ? html`<dt>Bomba</dt><dd>${p.bomba}</dd>` : ''}
-              ${p.filtro ? html`<dt>Filtro</dt><dd>${p.filtro}</dd>` : ''}
+              ${p.largo !== '' && p.ancho !== '' && p.profundidad !== '' && p.largo !== undefined ? html`<dt>Medidas</dt><dd>${num(p.largo)} × ${num(p.ancho)} × ${num(p.profundidad)} m</dd>` : ''}
+              ${p.bomba_tiene === 'no' ? html`<dt>Bomba</dt><dd>No tiene</dd>` : p.bomba_tiene === 'si' || p.bomba ? html`<dt>Bomba</dt><dd>${p.bomba || 'Tiene'}</dd>` : ''}
+              ${p.filtro_tiene === 'no' ? html`<dt>Filtro</dt><dd>No tiene</dd>` : p.filtro_tiene === 'si' || p.filtro ? html`<dt>Filtro</dt><dd>${[p.filtro || 'Tiene', p.filtro_arena].filter(Boolean).join(' · ')}</dd>` : ''}
               ${p.cloracion ? html`<dt>Cloración</dt><dd>${p.cloracion}</dd>` : ''}
             </dl>
             ${p.notas ? html`<p class="small muted" style="margin-top:8px">${p.notas}</p>` : ''}
