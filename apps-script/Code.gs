@@ -211,8 +211,18 @@ function sessionValid_(token) {
   return !!(s && s.exp > Date.now());
 }
 
+/** Usuario inicial (secreto.gs): se crea solo si todavía no hay uno creado desde el menú de la hoja. */
+function usuarioInicial_(props) {
+  if (props.getProperty('USUARIO') || typeof USUARIO_INICIAL !== 'string' || typeof PASSWORD_INICIAL !== 'string') return false;
+  if (!/^[A-Za-z0-9._-]{3,40}$/.test(USUARIO_INICIAL) || PASSWORD_INICIAL.length < 8) return false;
+  var salt = Utilities.getUuid();
+  props.setProperties({ USUARIO: USUARIO_INICIAL, PASS_SALT: salt, PASS_HASH: passwordHash_(PASSWORD_INICIAL, salt), SESIONES: '{}' });
+  return true;
+}
+
 function login_(req) {
   var props = PropertiesService.getScriptProperties();
+  usuarioInicial_(props);
   var user = props.getProperty('USUARIO');
   if (!user) throw new Error('Todavía no creaste tu usuario. Abrí la hoja phcontrol → menú phcontrol → Crear o cambiar usuario.');
   var cache = CacheService.getScriptCache();
@@ -519,6 +529,7 @@ function inicializar() {
     props.setProperty('TOKEN', TOKEN_INICIAL);
     Logger.log('Token guardado en las Propiedades del script.');
   }
+  if (usuarioInicial_(props)) Logger.log('Usuario "' + USUARIO_INICIAL + '" creado.');
   Logger.log(setup_());
   Logger.log('Carpeta de fotos: ' + photoFolder_().getUrl());
   if (!props.getProperty('TOKEN')) {

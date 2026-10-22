@@ -214,8 +214,9 @@
 .sc-photos img { width: 100%; height: 360px; object-fit: cover; border-radius: 28px; display: block; }
 .sc-photos figcaption { font-size: 24px; font-weight: 600; color: #4A5D6D; margin-top: 10px; }
 .sc-list { list-style: none; padding: 0; margin: 0; }
-.sc-list li { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 2px solid #E4ECF3; font-size: 28px; }
-.sc-list li span:last-child { font-weight: 700; }
+.sc-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 2px solid #E4ECF3; font-size: 28px; white-space: nowrap; }
+.sc-list li span:first-child { flex: 1 1 0; min-width: 0; overflow: hidden; }
+.sc-list li span:last-child { font-weight: 700; flex: none; }
 .sc-obs { font-size: 28px; white-space: pre-wrap; }
 .sc-foot { margin-top: 32px; padding: 40px 72px 48px; background: #192F41; color: #fff; font-size: 26px; display: flex; align-items: center; gap: 40px; }
 .sc-foot-logo { width: 220px; height: auto; flex: none; }

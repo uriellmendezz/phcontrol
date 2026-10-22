@@ -14,7 +14,9 @@
 !/data/
 !/js/
 
-# Secretos de Apps Script (token y configuración de clasp): nunca al repo
+# Secretos: usuario/contraseña (.env), token y configuración de clasp: nunca al repo
+/.env
+.env.*
 /apps-script/.clasp.json
 /apps-script/secreto.gs
 

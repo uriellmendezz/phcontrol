@@ -7,6 +7,7 @@ import { initSync, getStatus, syncNow } from './data/sync.js';
 import { startRouter, navigate } from './router.js';
 import { toast } from './ui/toast.js';
 import { initTheme } from './ui/theme.js';
+import './ui/numfmt.js';
 
 const LABELS = {
   ok: 'Sincronizado',

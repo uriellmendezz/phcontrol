@@ -6,7 +6,7 @@
  * - Apps Script: nunca se cachea (los datos viven en IndexedDB).
  * Al publicar cambios, subí VERSION para que los iPhones reciban la actualización.
  */
-const VERSION = 'v1.3.0';
+const VERSION = 'v1.3.1';
 const SHELL = `phcontrol-shell-${VERSION}`;
 const RUNTIME = 'phcontrol-runtime';
 
@@ -24,6 +24,7 @@ const ASSETS = [
   './js/ui/icons.js',
   './js/ui/toast.js',
   './js/ui/theme.js',
+  './js/ui/numfmt.js',
   './js/ui/modal.js',
   './js/ui/components.js',
   './js/ui/charts.js',

@@ -20,6 +20,34 @@ async function toDataURL(url) {
   return blobToDataURL(await res.blob());
 }
 
+/**
+ * Foto reducida y recortada (cover) al tamaño en que se ve en la tarjeta. Las fotos completas
+ * (1280 px) hacen que Safari descarte alguna imagen al rasterizar una tarjeta alta.
+ */
+async function cardPhoto(ref) {
+  const blob = ref ? await photoBlob(ref) : null;
+  if (!blob) return '';
+  const url = URL.createObjectURL(blob);
+  try {
+    const img = new Image();
+    img.src = url;
+    await img.decode();
+    const W = 936; const H = 720;
+    const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+    const canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, (W - img.naturalWidth * s) / 2, (H - img.naturalHeight * s) / 2, img.naturalWidth * s, img.naturalHeight * s);
+    const out = canvas.toDataURL('image/jpeg', 0.85);
+    canvas.width = canvas.height = 0;
+    return out;
+  } catch {
+    return blobToDataURL(blob);
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
 const CARD_LABELS = { ph: 'pH', cloro: 'Cloro libre', alcalinidad: 'Alcalinidad', estabilizante: 'Estabilizante' };
 
 function paramRow(key, value, range) {
@@ -38,6 +66,17 @@ function paramRow(key, value, range) {
   </div>`;
 }
 
+/** Achica la letra del nombre de cada producto hasta que entre en una línea sin tocar la cantidad. */
+function fitProductNames(card) {
+  card.querySelectorAll('.sc-list li > span:first-child').forEach((name) => {
+    let size = parseFloat(getComputedStyle(name).fontSize);
+    while (name.scrollWidth > name.clientWidth && size > 14) {
+      size -= 1;
+      name.style.fontSize = `${size}px`;
+    }
+  });
+}
+
 export async function buildCard(v) {
   const cfg = settings();
   const c = get('clientes', v.cliente_id);
@@ -46,8 +85,8 @@ export async function buildCard(v) {
     toDataURL('assets/logo/logo-white.png'),
     toDataURL('assets/logo/logo-white.svg'),
     toDataURL('assets/img/ondas.svg').catch(() => ''),
-    v.foto_antes ? photoBlob(v.foto_antes).then((b) => (b ? blobToDataURL(b) : '')) : '',
-    v.foto_despues ? photoBlob(v.foto_despues).then((b) => (b ? blobToDataURL(b) : '')) : ''
+    cardPhoto(v.foto_antes),
+    cardPhoto(v.foto_despues)
   ]);
   const productos = Array.isArray(v.productos) ? v.productos.filter((x) => x.nombre) : [];
   const el = document.createElement('div');
@@ -102,6 +141,7 @@ export async function shareVisit(v) {
     const card = await buildCard(v);
     host.appendChild(card);
     document.body.appendChild(host);
+    fitProductNames(card);
     // decode() puede quedar esperando un frame si la app está en segundo plano: máximo 1,5 s.
     const decoded = Promise.all([...card.querySelectorAll('img')].map((img) => img.decode?.().catch(() => {})));
     await Promise.race([decoded, new Promise((r) => setTimeout(r, 1500))]);
