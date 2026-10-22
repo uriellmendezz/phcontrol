@@ -187,10 +187,9 @@
   font-family: var(--font); font-size: 30px; line-height: 1.35;
 }
 .sc-head { position: relative; background-color: #0084B9; background-size: cover; background-position: center; color: #fff; }
-.sc-head-inner { position: relative; padding: 64px 72px 56px; }
-.sc-logo { width: 300px; height: auto; margin-bottom: 40px; }
+.sc-head-inner { position: relative; padding: 44px 72px 38px; }
 .sc-kicker { font-size: 26px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .95; }
-.sc-title { font-size: 68px; font-weight: 700; line-height: 1.1; margin-top: 8px; }
+.sc-title { font-size: 60px; font-weight: 700; line-height: 1.1; margin-top: 8px; }
 .sc-sub { font-size: 32px; font-weight: 600; margin-top: 10px; }
 .sc-body { padding: 48px 72px 24px; }
 .sc-meta { display: flex; flex-direction: column; gap: 4px; color: #4A5D6D; font-size: 28px; }

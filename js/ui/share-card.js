@@ -81,8 +81,7 @@ export async function buildCard(v) {
   const cfg = settings();
   const c = get('clientes', v.cliente_id);
   const p = v.pileta_id ? get('piletas', v.pileta_id) : null;
-  const [logo, logoVector, waves, antes, despues] = await Promise.all([
-    toDataURL('assets/logo/logo-white.png'),
+  const [logoVector, waves, antes, despues] = await Promise.all([
     toDataURL('assets/logo/logo-white.svg'),
     toDataURL('assets/img/ondas.svg').catch(() => ''),
     cardPhoto(v.foto_antes),
@@ -92,9 +91,8 @@ export async function buildCard(v) {
   const el = document.createElement('div');
   el.className = 'share-card';
   mount(el, html`
-    <div class="sc-head" style="background-image:url('${waves}')">
+    <div class="sc-head" style="background-image:linear-gradient(rgba(0,132,185,.65),rgba(0,132,185,.65)),url('${waves}')">
       <div class="sc-head-inner">
-        <img class="sc-logo" src="${logo}" alt="phcontrol">
         <div class="sc-kicker">Reporte de mantenimiento</div>
         <div class="sc-title">${fullName(c)}</div>
         <div class="sc-sub">${capFirst(longDate(v.fecha))}${v.hora ? ` · ${v.hora} h` : ''}</div>
