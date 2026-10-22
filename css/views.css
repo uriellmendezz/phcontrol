@@ -183,6 +183,7 @@
 /* ---------- Tarjeta exportable (1080 px, fuera de pantalla) ---------- */
 .share-card-host { position: fixed; left: -12000px; top: 0; width: 1080px; pointer-events: none; }
 .share-card {
+  display: flex; flex-direction: column;
   width: 1080px; background: #FFFFFF; color: #192F41;
   font-family: var(--font); font-size: 30px; line-height: 1.35;
 }
@@ -191,7 +192,7 @@
 .sc-kicker { font-size: 26px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .95; }
 .sc-title { font-size: 60px; font-weight: 700; line-height: 1.1; margin-top: 8px; }
 .sc-sub { font-size: 32px; font-weight: 600; margin-top: 10px; }
-.sc-body { padding: 48px 72px 24px; }
+.sc-body { flex: 1 0 auto; padding: 48px 72px 24px; }
 .sc-meta { display: flex; flex-direction: column; gap: 4px; color: #4A5D6D; font-size: 28px; }
 .sc-section-title { font-size: 24px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6F8291; margin: 44px 0 18px; }
 .sc-params { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
@@ -217,7 +218,7 @@
 .sc-list li span:first-child { flex: 1 1 0; min-width: 0; overflow: hidden; }
 .sc-list li span:last-child { font-weight: 700; flex: none; }
 .sc-obs { font-size: 28px; white-space: pre-wrap; }
-.sc-foot { margin-top: 32px; padding: 40px 72px 48px; background: #192F41; color: #fff; font-size: 26px; display: flex; align-items: center; gap: 40px; }
+.sc-foot { margin-top: auto; flex: none; padding: 40px 72px 48px; background: #192F41; color: #fff; font-size: 26px; display: flex; align-items: center; gap: 40px; }
 .sc-foot-logo { width: 220px; height: auto; flex: none; }
 .sc-foot-text { min-width: 0; }
 .sc-lema { color: #68CBDE; font-weight: 600; margin-top: 6px; }
@@ -297,3 +298,18 @@
   .map-box { height: calc(100dvh - var(--header-h) - 230px); }
   .grid-2 .photo-box, .photo-box { max-height: 360px; }
 }
+
+/* Si el contenido no entra en 1080 × 1920, la tarjeta se compacta por niveles (ver fitCardHeight) */
+.share-card.compact .sc-body { padding-top: 36px; }
+.share-card.compact .sc-section-title { margin: 30px 0 14px; }
+.share-card.compact .sc-photos img { height: 250px; }
+.share-card.compact .sc-param { padding: 22px 26px; }
+.share-card.compact .sc-list li { padding: 10px 0; }
+.share-card.tight .sc-section-title { margin: 22px 0 10px; }
+.share-card.tight .sc-photos img { height: 180px; }
+.share-card.tight .sc-param { padding: 16px 24px; }
+.share-card.tight .sc-param-val { font-size: 44px; }
+.share-card.tight .sc-track { margin: 12px 0 10px; }
+.share-card.tight .sc-list li { padding: 6px 0; font-size: 26px; }
+.share-card.tight .sc-obs { font-size: 26px; }
+.share-card.tight .sc-foot { padding: 28px 72px 32px; }

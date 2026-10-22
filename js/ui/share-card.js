@@ -77,6 +77,19 @@ function fitProductNames(card) {
   });
 }
 
+const CARD_W = 1080;
+const CARD_H = 1920; // formato historia de Instagram (9:16)
+
+/** Deja la tarjeta en 1080 × 1920: si el contenido no entra, la compacta; si sobra, el pie queda abajo. */
+function fitCardHeight(card) {
+  card.style.height = '';
+  for (const level of ['compact', 'tight']) {
+    if (card.scrollHeight <= CARD_H) break;
+    card.classList.add(level);
+  }
+  card.style.height = `${Math.max(CARD_H, card.scrollHeight)}px`;
+}
+
 export async function buildCard(v) {
   const cfg = settings();
   const c = get('clientes', v.cliente_id);
@@ -140,11 +153,12 @@ export async function shareVisit(v) {
     host.appendChild(card);
     document.body.appendChild(host);
     fitProductNames(card);
+    fitCardHeight(card);
     // decode() puede quedar esperando un frame si la app está en segundo plano: máximo 1,5 s.
     const decoded = Promise.all([...card.querySelectorAll('img')].map((img) => img.decode?.().catch(() => {})));
     await Promise.race([decoded, new Promise((r) => setTimeout(r, 1500))]);
     await document.fonts?.ready;
-    const opts = { pixelRatio: 1, cacheBust: false, backgroundColor: '#FFFFFF', width: 1080 };
+    const opts = { pixelRatio: 1, cacheBust: false, backgroundColor: '#FFFFFF', width: CARD_W, height: card.offsetHeight };
     let blob;
     try {
       await lib.toBlob(card, opts); // primer render "en blanco": bug conocido de Safari con imágenes
