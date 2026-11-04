@@ -1,4 +1,4 @@
-/** Arranque de phcontrol. */
+/** Arranque de pilecontrol. */
 import { openDB, requestPersistence } from './data/db.js';
 import { loadAll, bus } from './data/store.js';
 import { loadConnection, isConfigured, saveConnection, getConnection } from './data/api.js';
@@ -72,7 +72,7 @@ function registerSW() {
     return;
   }
   navigator.serviceWorker.register('./sw.js').then((reg) => {
-    const ask = (worker) => toast('Hay una versión nueva de phcontrol.', {
+    const ask = (worker) => toast('Hay una versión nueva de pilecontrol.', {
       action: 'Actualizar', duration: 15000,
       onAction: () => worker.postMessage({ type: 'SKIP_WAITING' })
     });
@@ -111,7 +111,7 @@ async function boot() {
   } catch (e) {
     hideSplash();
     document.getElementById('view').innerHTML =
-      '<div class="error-state" role="alert"><h3>No se pudo abrir la base local</h3><p>Cerrá otras pestañas de phcontrol y volvé a abrir. Si usás modo privado de Safari, salí de ese modo.</p></div>';
+      '<div class="error-state" role="alert"><h3>No se pudo abrir la base local</h3><p>Cerrá otras pestañas de pilecontrol y volvé a abrir. Si usás modo privado de Safari, salí de ese modo.</p></div>';
     return;
   }
   requestPersistence();

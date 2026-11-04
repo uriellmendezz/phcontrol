@@ -145,7 +145,7 @@ export async function buildCard(v) {
       ${v.observaciones ? html`<div class="sc-section-title">Observaciones</div><p class="sc-obs">${v.observaciones}</p>` : ''}
     </div>
     <div class="sc-foot">
-      <img class="sc-foot-logo" src="${logoVector}" alt="phcontrol">
+      <img class="sc-foot-logo" src="${logoVector}" alt="pilecontrol">
       <div class="sc-foot-text">
         ${cfg.negocio.titular || cfg.negocio.telefono ? html`<div>${[cfg.negocio.titular, cfg.negocio.telefono].filter(Boolean).join(' · ')}</div>` : ''}
         <div class="sc-lema">${cfg.negocio.lema}</div>

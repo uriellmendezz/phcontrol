@@ -1,6 +1,7 @@
 /** Envoltorio mínimo de IndexedDB con promesas. */
 import { ENTITIES } from './schema.js';
 
+// Nombre histórico: no cambiarlo, o la app dejaría de encontrar los datos ya guardados en el teléfono.
 const DB_NAME = 'phcontrol';
 const DB_VERSION = 1;
 let dbPromise;

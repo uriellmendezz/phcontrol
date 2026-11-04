@@ -1,6 +1,6 @@
 {
-  "name": "phcontrol",
-  "short_name": "phcontrol",
+  "name": "pilecontrol",
+  "short_name": "pilecontrol",
   "description": "Gestión de mantenimiento de piletas: visitas, agenda, clientes, química y stock.",
   "id": "./",
   "start_url": "./#/inicio",

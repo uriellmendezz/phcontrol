@@ -1,12 +1,13 @@
 /**
- * Service Worker de phcontrol.
+ * Service Worker de pilecontrol.
  * - Precache del "shell" (HTML, CSS, JS, íconos, teórico) → la app abre sin conexión.
  * - Librerías de CDN (Chart.js, html-to-image): se intentan precachear; si no, se cachean al primer uso.
  * - Open-Meteo: red primero, caché si no hay señal.
  * - Apps Script: nunca se cachea (los datos viven en IndexedDB).
  * Al publicar cambios, subí VERSION para que los iPhones reciban la actualización.
  */
-const VERSION = 'v1.3.1';
+const VERSION = 'v1.4.0';
+// El prefijo "phcontrol-" es histórico: se mantiene para que la limpieza borre las cachés viejas.
 const SHELL = `phcontrol-shell-${VERSION}`;
 const RUNTIME = 'phcontrol-runtime';
 
@@ -70,7 +71,7 @@ const ASSETS = [
   './js/config.js',
   './data/teorico.json',
   './assets/logo/logo-white.png',
-  './assets/logo/logo-navy.png',
+  './assets/logo/logo-azul.png',
   './assets/logo/logo-white.svg',
   './assets/logo/main-logo.png',
   './assets/icons/icon-180.png',

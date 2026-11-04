@@ -13,11 +13,11 @@ export function showLogin({ message = '', onDone } = {}) {
   el.className = 'login';
   el.setAttribute('role', 'dialog');
   el.setAttribute('aria-modal', 'true');
-  el.setAttribute('aria-label', 'Ingresar a phcontrol');
+  el.setAttribute('aria-label', 'Ingresar a pilecontrol');
   mount(el, html`
     <div class="waves-anim" aria-hidden="true"></div>
     <div class="login-inner">
-      <img class="login-logo" src="assets/logo/logo-white.svg" alt="phcontrol">
+      <img class="login-logo" src="assets/logo/logo-white.svg" alt="pilecontrol">
       <form class="login-card form" novalidate>
         <h1 class="login-title">Ingresar</h1>
         ${message ? html`<div class="alert warn">${icon('info')}<p>${message}</p></div>` : ''}
@@ -28,7 +28,7 @@ export function showLogin({ message = '', onDone } = {}) {
           <button class="btn btn-soft" type="button" data-toggle aria-label="Mostrar u ocultar contraseña">Ver</button></div></div>
         <p class="form-error" id="lg-error" role="alert" hidden></p>
         <button class="btn btn-block" type="submit">${icon('check')}Ingresar</button>
-        <p class="xsmall muted login-help">¿Primera vez? Creá tu usuario desde tu hoja <strong>phcontrol</strong> en Google Sheets: menú <strong>phcontrol → Crear o cambiar usuario</strong>.</p>
+        <p class="xsmall muted login-help">¿Primera vez? Creá tu usuario desde tu hoja de Google Sheets: menú <strong>pilecontrol → Crear o cambiar usuario</strong>.</p>
       </form>
     </div>`);
   document.body.appendChild(el);

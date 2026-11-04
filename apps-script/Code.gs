@@ -1,5 +1,5 @@
 /**
- * phcontrol — API mínima sobre Google Sheets (Apps Script Web App).
+ * pilecontrol — API mínima sobre Google Sheets (Apps Script Web App).
  *
  * Todas las llamadas son POST con cuerpo JSON enviado como text/plain:
  *   { "token": "...", "action": "ping|pull|push|uploadPhoto|getPhoto|setup", ... }
@@ -121,12 +121,13 @@ var SCHEMA = {
 };
 
 var META = ['id', 'creado_en', 'actualizado_en', 'servidor_en', 'eliminado'];
+// Nombre histórico: no cambiarlo, o las fotos nuevas irían a otra carpeta de Drive.
 var PHOTO_FOLDER_NAME = 'phcontrol-fotos';
 
 /* ---------------- Entradas HTTP ---------------- */
 
 function doGet() {
-  return json_({ ok: true, app: 'phcontrol', msg: 'Usá POST con token.' });
+  return json_({ ok: true, app: 'pilecontrol', msg: 'Usá POST con token.' });
 }
 
 function doPost(e) {
@@ -224,7 +225,7 @@ function login_(req) {
   var props = PropertiesService.getScriptProperties();
   usuarioInicial_(props);
   var user = props.getProperty('USUARIO');
-  if (!user) throw new Error('Todavía no creaste tu usuario. Abrí la hoja phcontrol → menú phcontrol → Crear o cambiar usuario.');
+  if (!user) throw new Error('Todavía no creaste tu usuario. Abrí tu hoja de Google Sheets → menú pilecontrol → Crear o cambiar usuario.');
   var cache = CacheService.getScriptCache();
   var fails = Number(cache.get('login_fails') || 0);
   if (fails >= MAX_FAILS) throw new Error('Demasiados intentos fallidos. Esperá 15 minutos.');
@@ -256,7 +257,7 @@ function logout_(token) {
 
 /** Menú en la hoja: el usuario y la contraseña se cargan acá (nunca en el código). */
 function onOpen() {
-  SpreadsheetApp.getUi().createMenu('phcontrol')
+  SpreadsheetApp.getUi().createMenu('pilecontrol')
     .addItem('Crear o cambiar usuario', 'menuUsuario')
     .addItem('Cerrar sesión en todos los dispositivos', 'menuCerrarSesiones')
     .addToUi();
@@ -264,11 +265,11 @@ function onOpen() {
 
 function menuUsuario() {
   var ui = SpreadsheetApp.getUi();
-  var r1 = ui.prompt('phcontrol · Usuario', 'Elegí tu nombre de usuario (por ejemplo: uriel)', ui.ButtonSet.OK_CANCEL);
+  var r1 = ui.prompt('pilecontrol · Usuario', 'Elegí tu nombre de usuario (por ejemplo: uriel)', ui.ButtonSet.OK_CANCEL);
   if (r1.getSelectedButton() !== ui.Button.OK) return;
   var user = r1.getResponseText().trim();
   if (!/^[A-Za-z0-9._-]{3,40}$/.test(user)) { ui.alert('Usuario inválido: usá de 3 a 40 letras, números, punto o guion.'); return; }
-  var r2 = ui.prompt('phcontrol · Contraseña', 'Elegí una contraseña de al menos 8 caracteres.', ui.ButtonSet.OK_CANCEL);
+  var r2 = ui.prompt('pilecontrol · Contraseña', 'Elegí una contraseña de al menos 8 caracteres.', ui.ButtonSet.OK_CANCEL);
   if (r2.getSelectedButton() !== ui.Button.OK) return;
   var pass = r2.getResponseText();
   if (pass.length < 8) { ui.alert('La contraseña tiene que tener al menos 8 caracteres.'); return; }
@@ -445,7 +446,7 @@ function getPhoto_(fileId) {
   var folderId = photoFolder_().getId();
   var inFolder = false;
   while (parents.hasNext()) if (parents.next().getId() === folderId) inFolder = true;
-  if (!inFolder) throw new Error('La foto no pertenece a la carpeta de phcontrol');
+  if (!inFolder) throw new Error('La foto no pertenece a la carpeta de pilecontrol');
   var blob = file.getBlob();
   return { ok: true, mime: blob.getContentType(), data: Utilities.base64Encode(blob.getBytes()) };
 }

@@ -1,4 +1,4 @@
-# phcontrol
+# pilecontrol
 
 PWA de gestión para el mantenimiento de piletas (zona norte de Córdoba). Funciona sin conexión,
 guarda todo primero en el iPhone y sincroniza con una Google Sheet privada a través de Apps Script.
@@ -23,7 +23,7 @@ phcontrol/
 │   ├── Code.gs                API sobre la hoja (pegar en Apps Script)
 │   └── appsscript.json        Manifiesto del script (zona horaria, permisos)
 ├── assets/
-│   ├── logo/                  main-logo.png (original), logo-white.png, logo-navy.png (recortes)
+│   ├── logo/                  main-logo.png (original), logo-white.png, logo-azul.png, logo-gota.svg
 │   ├── icons/                 180, 192, 512 y maskable (generados del logo)
 │   ├── splash/                Pantallas de inicio iOS
 │   ├── img/ondas.svg          Patrón de agua (inicio y tarjeta exportable)
@@ -49,7 +49,7 @@ phcontrol/
 ## 2. Configurar Google (hoja + Apps Script) — paso a paso
 
 ### 2.1 Crear la hoja
-1. Entrá a https://sheets.new con tu cuenta de Google. Nombrala **phcontrol**.
+1. Entrá a https://sheets.new con tu cuenta de Google. Nombrala **pilecontrol**.
 2. No hace falta crear pestañas: el script las crea solo (Clientes, Piletas, Visitas, Agenda, Stock, Ventas, Compras, Config).
 3. La hoja queda **privada**. No la compartas.
 
@@ -71,7 +71,7 @@ phcontrol/
 ### 2.4 Inicializar y autorizar
 1. En el editor, elegí la función **`inicializar`** y tocá **Ejecutar**.
 2. Google pide permisos (hoja actual y Drive). Como el script es tuyo, aparece "Google no verificó esta app":
-   **Configuración avanzada → Ir a phcontrol (no seguro) → Permitir**.
+   **Configuración avanzada → Ir a pilecontrol (no seguro) → Permitir**.
 3. En el registro vas a ver las pestañas creadas y el enlace a la carpeta **phcontrol-fotos** en tu Drive (privada).
 
 ### 2.5 Desplegar como Web App
@@ -82,10 +82,10 @@ phcontrol/
 4. Si después cambiás `Code.gs`: **Implementar → Administrar implementaciones → Editar (lápiz) → Versión: Nueva versión → Implementar**. Así la URL no cambia.
 
 ### 2.6 Crear tu usuario e ingresar
-1. Abrí la hoja **phcontrol** en Google Sheets. Arriba aparece el menú **phcontrol** (si no está, recargá la hoja).
-2. **phcontrol → Crear o cambiar usuario**: elegí usuario y contraseña (mínimo 8 caracteres). La primera vez Google pide autorizar el script.
+1. Abrí la hoja **pilecontrol** en Google Sheets. Arriba aparece el menú **pilecontrol** (si no está, recargá la hoja).
+2. **pilecontrol → Crear o cambiar usuario**: elegí usuario y contraseña (mínimo 8 caracteres). La primera vez Google pide autorizar el script.
 3. En la app, ingresá con ese usuario y contraseña. La sesión dura un año en cada dispositivo y la app sigue funcionando sin señal.
-4. **phcontrol → Cerrar sesión en todos los dispositivos** invalida todas las sesiones (por ejemplo, si perdés el teléfono).
+4. **pilecontrol → Cerrar sesión en todos los dispositivos** invalida todas las sesiones (por ejemplo, si perdés el teléfono).
 
 La URL del Web App está en `js/config.js` (no es secreta). El token maestro de `secreto.gs` sigue sirviendo como acceso avanzado
 (Ajustes → Conexión avanzada) y nunca se sube al repositorio. La contraseña se guarda en el script solo como hash.
@@ -148,7 +148,7 @@ git add .
 ```
 
 ```bash
-git commit -m "phcontrol v1"
+git commit -m "pilecontrol v1"
 ```
 
 ```bash
@@ -171,7 +171,7 @@ Antes del primer push, revisá con `git status` que **no** aparezcan `Entregas/`
 
 **Instalación**
 - [ ] Safari → `https://TU-USUARIO.github.io/phcontrol/` → Compartir → **Añadir a pantalla de inicio**.
-- [ ] El ícono es el logo sobre azul `#0084B9` y el nombre "phcontrol".
+- [ ] El ícono es el logo sobre azul `#0084B9` y el nombre "pilecontrol".
 - [ ] Al abrir se ve la pantalla de inicio azul con el logo y luego la app a pantalla completa (sin barra de Safari).
 
 **Safe areas y layout**

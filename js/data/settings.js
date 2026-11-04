@@ -6,7 +6,7 @@ import { get, save } from './store.js';
 
 export const DEFAULTS = {
   negocio: {
-    nombre: 'phcontrol',
+    nombre: 'pilecontrol',
     titular: '',
     telefono: '',
     email: '',
@@ -37,7 +37,10 @@ function merge(base, over) {
 
 export function settings() {
   const rec = get('config', 'app');
-  return merge(DEFAULTS, rec?.valor || {});
+  const cfg = merge(DEFAULTS, rec?.valor || {});
+  // Los ajustes guardados antes del cambio de marca conservan el nombre viejo.
+  if (cfg.negocio.nombre === 'phcontrol') cfg.negocio.nombre = DEFAULTS.negocio.nombre;
+  return cfg;
 }
 
 export async function saveSettings(patch) {
