@@ -11,6 +11,7 @@ body {
   height: 100dvh;
   overflow: hidden;
   font-family: var(--font);
+  letter-spacing: var(--tracking);
   font-size: var(--fs-md);
   line-height: var(--lh);
   color: var(--text);
@@ -33,10 +34,10 @@ body.modal-open .scroller { overflow: hidden; }
 img, svg, canvas { display: block; max-width: 100%; }
 /* Tamaño por defecto de los íconos: un ícono sin regla propia nunca ocupa todo el ancho */
 :where(svg.ic) { width: 20px; height: 20px; flex: none; }
-button, input, select, textarea { font: inherit; color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
 button { cursor: pointer; }
 a { color: var(--accent-strong); }
-h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); line-height: var(--lh-tight); font-weight: var(--fw-bold); letter-spacing: 0; -webkit-text-stroke: var(--stroke-soft) currentColor; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); line-height: var(--lh-tight); font-weight: var(--fw-bold); -webkit-text-stroke: var(--stroke-soft) currentColor; }
 h1 { -webkit-text-stroke-width: var(--stroke-title); }
 p { margin: 0; }
 [hidden] { display: none !important; }

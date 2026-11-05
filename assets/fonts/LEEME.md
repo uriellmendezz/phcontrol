@@ -5,6 +5,7 @@ La app busca estos archivos (si faltan, usa la fuente del sistema y sigue funcio
 | Archivo | Uso |
 |---|---|
 | `Comfortaa-Variable.woff2` | Títulos y botones (incluida, OFL) |
+| `HurmeGeometricSans4-Bold-numeros.woff2` | Números, en toda la app (incluida, solo dígitos) |
 | `HurmeGeometricSans4-Regular.woff2` | Cuerpo |
 | `HurmeGeometricSans4-SemiBold.woff2` | Destacados del cuerpo |
 | `HurmeGeometricSans4-Bold.woff2` | Destacados del cuerpo |

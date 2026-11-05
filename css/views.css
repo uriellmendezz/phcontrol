@@ -189,22 +189,22 @@
 .share-card {
   display: flex; flex-direction: column;
   width: 1080px; background: #FFFFFF; color: #192F41;
-  font-family: var(--font); font-size: 30px; line-height: 1.35;
+  font-family: var(--font); letter-spacing: var(--tracking); font-size: 30px; line-height: 1.35;
 }
 .sc-head { position: relative; background-color: #0084B9; background-size: 100% auto; background-position: center bottom; color: #fff; }
 .sc-head-inner { position: relative; padding: 44px 72px 76px; }
-.sc-kicker { font-size: 26px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .95; }
+.sc-kicker { font-size: 26px; font-weight: 600; text-transform: uppercase; opacity: .95; }
 .sc-title { font-family: var(--font-display); font-size: 58px; font-weight: 700; line-height: 1.1; margin-top: 8px; -webkit-text-stroke: 1.8px currentColor; }
 .sc-sub { font-size: 32px; font-weight: 600; margin-top: 10px; }
 .sc-body { flex: 1 0 auto; padding: 48px 72px 24px; }
 .sc-meta { display: flex; flex-direction: column; gap: 4px; color: #4A5D6D; font-size: 28px; }
-.sc-section-title { font-size: 24px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6F8291; margin: 56px 0 22px; }
+.sc-section-title { font-size: 24px; font-weight: 700; text-transform: uppercase; color: #6F8291; margin: 56px 0 22px; }
 .sc-params { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .sc-param { background: #F3F7FB; border-radius: 28px; padding: 28px; }
 .sc-param { min-width: 0; }
 .sc-param-name { font-weight: 600; font-size: 26px; color: #4A5D6D; white-space: nowrap; }
 /* Valor y unidad en una sola línea: la unidad más chica para que "0,5 ppm" nunca se corte */
-.sc-param-val { font-family: var(--font-display); font-weight: 700; -webkit-text-stroke: 1px currentColor; font-size: 52px; line-height: 1.1; white-space: nowrap; margin-top: 4px; }
+.sc-param-val { font-family: var(--font-display); font-weight: 700; font-size: 52px; line-height: 1.1; white-space: nowrap; margin-top: 4px; }
 .sc-unit { font-size: 26px; font-weight: 600; color: #4A5D6D; margin-left: 8px; }
 .sc-track { position: relative; height: 14px; border-radius: 7px; background: #E4ECF3; margin: 18px 0 14px; }
 .sc-band { position: absolute; top: 0; bottom: 0; background: #BFE7DF; border-radius: 7px; }
