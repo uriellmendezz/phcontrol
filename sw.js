@@ -1,12 +1,12 @@
 /**
- * Service Worker de pilecontrol.
+ * Service Worker de Pulcro Piletas.
  * - Precache del "shell" (HTML, CSS, JS, íconos, teórico) → la app abre sin conexión.
  * - Librerías de CDN (Chart.js, html-to-image): se intentan precachear; si no, se cachean al primer uso.
  * - Open-Meteo: red primero, caché si no hay señal.
  * - Apps Script: nunca se cachea (los datos viven en IndexedDB).
  * Al publicar cambios, subí VERSION para que los iPhones reciban la actualización.
  */
-const VERSION = 'v1.4.0';
+const VERSION = 'v2.0.1';
 // El prefijo "phcontrol-" es histórico: se mantiene para que la limpieza borre las cachés viejas.
 const SHELL = `phcontrol-shell-${VERSION}`;
 const RUNTIME = 'phcontrol-runtime';
@@ -71,15 +71,17 @@ const ASSETS = [
   './js/config.js',
   './data/teorico.json',
   './assets/logo/logo-white.png',
-  './assets/logo/logo-azul.png',
-  './assets/logo/logo-white.svg',
+  './assets/logo/logo-vertical-white.png',
   './assets/logo/main-logo.png',
   './assets/icons/icon-180.png',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
   './assets/icons/favicon-32.png',
   './assets/img/ondas.svg',
-  './assets/img/ondas-lineas.svg'
+  './assets/img/ondas-lineas.svg',
+  './assets/img/onda-suave.svg',
+  './assets/img/onda-borde.svg',
+  './assets/fonts/Comfortaa-Variable.woff2'
 ];
 
 // Fuentes y librerías: opcionales (si faltan, no rompen la instalación).

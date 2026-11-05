@@ -119,7 +119,7 @@ export default async function ajustes(root, ctx) {
       <p class="small muted">iOS puede borrar los datos de una app web que no se usa por semanas. Lo que ya se sincronizó está a salvo en tu Google Sheets.</p>
       <button class="btn btn-danger" type="button" data-action="wipe">${icon('trash')}Borrar datos locales</button>
     </section>
-    <p class="xsmall muted" style="text-align:center;margin-top:24px">pilecontrol · hecho para trabajar con poca señal</p>`);
+    <p class="xsmall muted" style="text-align:center;margin-top:24px">Pulcro Piletas · hecho para trabajar con poca señal</p>`);
 
   async function renderSync() {
     const st = getStatus();
@@ -283,7 +283,7 @@ export default async function ajustes(root, ctx) {
     try {
       const files = await exportFiles();
       if (navigator.canShare?.({ files })) {
-        try { await navigator.share({ files, title: 'Backup pilecontrol' }); }
+        try { await navigator.share({ files, title: 'Backup Pulcro Piletas' }); }
         catch (err) { if (err.name !== 'AbortError') files.forEach(downloadFile); }
       } else {
         files.forEach((f, i) => setTimeout(() => downloadFile(f), i * 400));

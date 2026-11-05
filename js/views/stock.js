@@ -117,7 +117,7 @@ export default async function stockView(root, ctx) {
     toast('Productos cargados. Completá concentraciones y dosis.');
   });
   on(root, 'click', '[data-action="share-list"]', async () => {
-    const text = 'Lista de compras pilecontrol:\n' + all('stock').filter(isLow).map((p) => `• ${p.producto}: ${fmtQty(Math.max(0, (Number(p.umbral) || 0) * 2 - (Number(p.cantidad) || 0)), p.unidad)}`).join('\n');
+    const text = 'Lista de compras Pulcro Piletas:\n' + all('stock').filter(isLow).map((p) => `• ${p.producto}: ${fmtQty(Math.max(0, (Number(p.umbral) || 0) * 2 - (Number(p.cantidad) || 0)), p.unidad)}`).join('\n');
     try {
       if (navigator.share) await navigator.share({ text });
       else { await navigator.clipboard.writeText(text); toast('Lista copiada'); }

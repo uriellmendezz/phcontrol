@@ -47,7 +47,7 @@
   display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2);
   min-height: var(--tap); padding: 0 var(--sp-5);
   border-radius: var(--radius-pill); border: 1px solid transparent;
-  font-weight: var(--fw-semibold); font-size: var(--fs-md); text-decoration: none; white-space: nowrap;
+  font-family: var(--font-display); font-weight: var(--fw-bold); font-size: var(--fs-md); text-decoration: none; white-space: nowrap;
   background: var(--primary); color: var(--primary-ink);
   transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
   -webkit-user-select: none; user-select: none;
@@ -91,8 +91,8 @@
   margin-left: auto;
   display: inline-flex; align-items: center; gap: 8px;
   min-height: 36px; padding: 0 12px;
-  border-radius: var(--radius-pill); border: 1px solid var(--border);
-  background: var(--surface); font-size: var(--fs-xs); font-weight: var(--fw-semibold); color: var(--text-2);
+  border-radius: var(--radius-pill); border: 0;
+  background: var(--brand-white); font-size: var(--fs-xs); font-weight: var(--fw-semibold); color: var(--brand-navy);
 }
 .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
 .sync-pill[data-state="pendiente"] .sync-dot { background: var(--warn); }
@@ -318,7 +318,7 @@ body.kb-open .form-actions { position: static; }
 /* ---------- Métricas ---------- */
 .stat { display: grid; gap: 2px; }
 .stat-label { font-size: var(--fs-xs); color: var(--text-3); font-weight: var(--fw-semibold); text-transform: uppercase; letter-spacing: .06em; }
-.stat-value { font-size: var(--fs-2xl); font-weight: var(--fw-bold); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.stat-value { font-family: var(--font-display); -webkit-text-stroke: var(--stroke-soft) currentColor; font-size: var(--fs-2xl); font-weight: var(--fw-bold); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
 .stat-delta { font-size: var(--fs-xs); font-weight: var(--fw-semibold); }
 .stat-delta.up { color: var(--ok); } .stat-delta.down { color: var(--danger); }
 

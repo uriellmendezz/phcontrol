@@ -6,13 +6,17 @@
 .hero {
   position: relative; overflow: hidden;
   margin: var(--sp-2) 0 0; border-radius: var(--radius-lg);
-  background: var(--brand-blue);
+  background: var(--brand-gradient);
   color: var(--brand-white);
   min-height: 148px;
 }
-.hero-inner { position: relative; z-index: 1; padding: var(--sp-6) var(--sp-5); }
+.hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 44px; pointer-events: none;
+  background: url("../assets/img/onda-suave.svg") center bottom / 100% 100% no-repeat;
+}
+.hero-inner { position: relative; z-index: 1; padding: var(--sp-6) var(--sp-5) var(--sp-8); }
 .hero-kicker { font-size: var(--fs-sm); font-weight: var(--fw-semibold); opacity: .95; }
-.hero-title { font-size: var(--fs-3xl); margin-top: 4px; }
+.hero-title { font-size: var(--fs-3xl); font-weight: var(--fw-bold); margin-top: 4px; }
 .hero-sub { margin-top: 6px; font-weight: var(--fw-semibold); }
 
 .dest-scroller {
@@ -23,7 +27,7 @@
 }
 .dest-scroller::-webkit-scrollbar { display: none; }
 .dest-card { scroll-snap-align: start; margin: 0 !important; }
-.dest-name { display: block; margin-top: 10px; font-size: var(--fs-lg); font-weight: var(--fw-bold); color: var(--text); text-decoration: none; }
+.dest-name { display: block; margin-top: 10px; font-family: var(--font-display); -webkit-text-stroke: var(--stroke-soft) currentColor; font-size: var(--fs-lg); font-weight: var(--fw-bold); color: var(--text); text-decoration: none; }
 .dest-card .quick { margin-top: 12px; }
 [data-rain] { display: inline-flex; align-items: center; gap: 2px; }
 [data-rain] svg { width: 16px; height: 16px; }
@@ -187,10 +191,10 @@
   width: 1080px; background: #FFFFFF; color: #192F41;
   font-family: var(--font); font-size: 30px; line-height: 1.35;
 }
-.sc-head { position: relative; background-color: #0084B9; background-size: cover; background-position: center; color: #fff; }
-.sc-head-inner { position: relative; padding: 44px 72px 38px; }
+.sc-head { position: relative; background-color: #0084B9; background-size: 100% auto; background-position: center bottom; color: #fff; }
+.sc-head-inner { position: relative; padding: 44px 72px 76px; }
 .sc-kicker { font-size: 26px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .95; }
-.sc-title { font-size: 60px; font-weight: 700; line-height: 1.1; margin-top: 8px; }
+.sc-title { font-family: var(--font-display); font-size: 58px; font-weight: 700; line-height: 1.1; margin-top: 8px; -webkit-text-stroke: 1.8px currentColor; }
 .sc-sub { font-size: 32px; font-weight: 600; margin-top: 10px; }
 .sc-body { flex: 1 0 auto; padding: 48px 72px 24px; }
 .sc-meta { display: flex; flex-direction: column; gap: 4px; color: #4A5D6D; font-size: 28px; }
@@ -200,7 +204,7 @@
 .sc-param { min-width: 0; }
 .sc-param-name { font-weight: 600; font-size: 26px; color: #4A5D6D; white-space: nowrap; }
 /* Valor y unidad en una sola línea: la unidad más chica para que "0,5 ppm" nunca se corte */
-.sc-param-val { font-weight: 700; font-size: 52px; line-height: 1.1; white-space: nowrap; margin-top: 4px; }
+.sc-param-val { font-family: var(--font-display); font-weight: 700; -webkit-text-stroke: 1px currentColor; font-size: 52px; line-height: 1.1; white-space: nowrap; margin-top: 4px; }
 .sc-unit { font-size: 26px; font-weight: 600; color: #4A5D6D; margin-left: 8px; }
 .sc-track { position: relative; height: 14px; border-radius: 7px; background: #E4ECF3; margin: 18px 0 14px; }
 .sc-band { position: absolute; top: 0; bottom: 0; background: #BFE7DF; border-radius: 7px; }
@@ -218,10 +222,10 @@
 .sc-list li span:first-child { flex: 1 1 0; min-width: 0; overflow: hidden; }
 .sc-list li span:last-child { font-weight: 700; flex: none; }
 .sc-obs { font-size: 28px; white-space: pre-wrap; }
-.sc-foot { margin-top: auto; flex: none; padding: 40px 72px 48px; background: #192F41; color: #fff; font-size: 26px; display: flex; align-items: center; gap: 40px; }
-.sc-foot-logo { width: 220px; height: auto; flex: none; }
+.sc-foot { margin-top: auto; flex: none; padding: 40px 72px 48px; background: linear-gradient(100deg, #0084B9, #1496CA); color: #fff; font-size: 26px; display: flex; align-items: center; gap: 40px; }
+.sc-foot-logo { width: 250px; height: auto; flex: none; }
 .sc-foot-text { min-width: 0; }
-.sc-lema { color: #68CBDE; font-weight: 600; margin-top: 6px; }
+.sc-lema { color: #FFFFFF; font-weight: 600; margin-top: 6px; }
 
 /* ---------- Mapa de clientes ---------- */
 .map-box {
@@ -244,12 +248,12 @@
   position: fixed; inset: 0; z-index: 150;
   display: grid; place-items: center; overflow-y: auto;
   padding: calc(var(--sp-6) + var(--safe-top)) var(--sp-4) calc(var(--sp-6) + var(--safe-bottom));
-  background: var(--brand-blue);
+  background: var(--brand-gradient);
   animation: fade-in var(--dur) var(--ease) both;
 }
 .login.closing { animation: fade-out var(--dur) var(--ease) both; }
 .login-inner { position: relative; width: 100%; max-width: 400px; display: grid; justify-items: center; gap: var(--sp-6); }
-.login-logo { width: 200px; height: auto; }
+.login-logo { width: 190px; height: auto; }
 .login-card {
   width: 100%; background: var(--surface); color: var(--text);
   border-radius: var(--radius-lg); padding: var(--sp-6) var(--sp-5);

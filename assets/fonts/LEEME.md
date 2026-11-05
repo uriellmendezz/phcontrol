@@ -4,9 +4,10 @@ La app busca estos archivos (si faltan, usa la fuente del sistema y sigue funcio
 
 | Archivo | Uso |
 |---|---|
+| `Comfortaa-Variable.woff2` | Títulos y botones (incluida, OFL) |
 | `HurmeGeometricSans4-Regular.woff2` | Cuerpo |
-| `HurmeGeometricSans4-SemiBold.woff2` | Subtítulos y botones |
-| `HurmeGeometricSans4-Bold.woff2` | Títulos |
+| `HurmeGeometricSans4-SemiBold.woff2` | Destacados del cuerpo |
+| `HurmeGeometricSans4-Bold.woff2` | Destacados del cuerpo |
 | `Outfit-Variable.woff2` | Respaldo libre (OFL) |
 
 ## Hurme Geometric Sans No. 4
@@ -20,3 +21,10 @@ Si tu licencia es solo de escritorio, no la subas: la app usará Outfit.
 Ya está incluida: `Outfit-Variable.woff2` (pesos 100–900, subconjunto latino: cubre á, é, ñ, ü, ¿, ¡).
 Origen: paquete `@fontsource-variable/outfit@5.3.0` (Fontsource, copia de Google Fonts).
 La licencia está en `OFL-Outfit.txt` y tiene que acompañar al archivo.
+
+## Comfortaa (títulos y botones, licencia SIL OFL 1.1)
+
+Ya está incluida: `Comfortaa-Variable.woff2` (pesos 300–700, subconjunto latino: cubre á, é, ñ, ü, ¿, ¡).
+Generada a partir de la fuente variable de Comfortaa con fontTools. La licencia está en `OFL-Comfortaa.txt`.
+
+Como Comfortaa no es muy gruesa, los títulos y destacados llevan un trazo (`-webkit-text-stroke`, tokens `--stroke-title` y `--stroke-soft` en `css/tokens.css`).

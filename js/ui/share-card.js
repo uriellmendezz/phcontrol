@@ -108,7 +108,7 @@ export async function buildCard(v) {
   const c = get('clientes', v.cliente_id);
   const p = v.pileta_id ? get('piletas', v.pileta_id) : null;
   const [logoVector, waves, antes, despues] = await Promise.all([
-    toDataURL('assets/logo/logo-white.svg'),
+    toDataURL('assets/logo/logo-white.png'),
     toDataURL('assets/img/ondas.svg').catch(() => ''),
     cardPhoto(v.foto_antes),
     cardPhoto(v.foto_despues)
@@ -117,7 +117,7 @@ export async function buildCard(v) {
   const el = document.createElement('div');
   el.className = 'share-card';
   mount(el, html`
-    <div class="sc-head" style="background-image:linear-gradient(rgba(0,132,185,.65),rgba(0,132,185,.65)),url('${waves}')">
+    <div class="sc-head" style="background-image:url('${waves}')">
       <div class="sc-head-inner">
         <div class="sc-kicker">Reporte de mantenimiento</div>
         <div class="sc-title">${fullName(c)}</div>
@@ -145,7 +145,7 @@ export async function buildCard(v) {
       ${v.observaciones ? html`<div class="sc-section-title">Observaciones</div><p class="sc-obs">${v.observaciones}</p>` : ''}
     </div>
     <div class="sc-foot">
-      <img class="sc-foot-logo" src="${logoVector}" alt="pilecontrol">
+      <img class="sc-foot-logo" src="${logoVector}" alt="Pulcro Piletas">
       <div class="sc-foot-text">
         ${cfg.negocio.titular || cfg.negocio.telefono ? html`<div>${[cfg.negocio.titular, cfg.negocio.telefono].filter(Boolean).join(' · ')}</div>` : ''}
         <div class="sc-lema">${cfg.negocio.lema}</div>

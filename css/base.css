@@ -36,7 +36,8 @@ img, svg, canvas { display: block; max-width: 100%; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a { color: var(--accent-strong); }
-h1, h2, h3, h4 { margin: 0; line-height: var(--lh-tight); font-weight: var(--fw-bold); letter-spacing: -.01em; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); line-height: var(--lh-tight); font-weight: var(--fw-bold); letter-spacing: 0; -webkit-text-stroke: var(--stroke-soft) currentColor; }
+h1 { -webkit-text-stroke-width: var(--stroke-title); }
 p { margin: 0; }
 [hidden] { display: none !important; }
 
@@ -66,15 +67,21 @@ p { margin: 0; }
   height: calc(var(--header-h) + var(--safe-top));
   padding: var(--safe-top) calc(var(--sp-4) + var(--safe-right)) 0 calc(var(--sp-4) + var(--safe-left));
   display: flex; align-items: center; gap: var(--sp-2);
-  background: var(--bg);
-  border-bottom: 1px solid transparent;
-  transition: border-color var(--dur) var(--ease);
+  background: var(--header-bg);
+  color: var(--brand-white);
 }
-.app-header.scrolled { border-bottom-color: var(--border); }
+/* Onda al pie de la barra superior */
+.app-header::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 10px; pointer-events: none;
+  background: var(--header-bg);
+  -webkit-mask: url("../assets/img/onda-borde.svg") center / 100% 100% no-repeat;
+  mask: url("../assets/img/onda-borde.svg") center / 100% 100% no-repeat;
+}
+.app-header .icon-btn { color: var(--brand-white); }
+.app-header .icon-btn:active { background: rgba(255, 255, 255, .18); }
+.app-header :focus-visible { outline-color: var(--brand-white); }
 .header-logo { display: flex; align-items: center; min-height: var(--tap); padding: 0 4px; }
-.header-logo img { width: 120px; height: auto; }
-.logo-on-light { display: var(--logo-on-light) !important; }
-.logo-on-dark { display: var(--logo-on-dark) !important; }
+.header-logo img { display: block; width: 126px; height: auto; }
 .header-back { margin-left: -10px; }
 
 /* ---------- Vista ---------- */
@@ -166,8 +173,8 @@ body.kb-open .tabbar { transform: translate3d(0, 110%, 0); }
 @media (min-width: 1024px) {
   :root { --side-w: 248px; --maxw: 1120px; --header-h: 64px; }
 
-  .app-header { border-bottom: 1px solid var(--border); padding-left: 28px; padding-right: 28px; }
-  .header-logo img { width: 140px; }
+  .app-header { padding-left: 28px; padding-right: 28px; }
+  .header-logo img { width: 146px; }
 
   /* La barra inferior se convierte en menú lateral */
   .tabbar {

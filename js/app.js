@@ -1,4 +1,4 @@
-/** Arranque de pilecontrol. */
+/** Arranque de Pulcro Piletas. */
 import { openDB, requestPersistence } from './data/db.js';
 import { loadAll, bus } from './data/store.js';
 import { loadConnection, isConfigured, saveConnection, getConnection } from './data/api.js';
@@ -72,7 +72,7 @@ function registerSW() {
     return;
   }
   navigator.serviceWorker.register('./sw.js').then((reg) => {
-    const ask = (worker) => toast('Hay una versión nueva de pilecontrol.', {
+    const ask = (worker) => toast('Hay una versión nueva de Pulcro Piletas.', {
       action: 'Actualizar', duration: 15000,
       onAction: () => worker.postMessage({ type: 'SKIP_WAITING' })
     });
@@ -111,7 +111,7 @@ async function boot() {
   } catch (e) {
     hideSplash();
     document.getElementById('view').innerHTML =
-      '<div class="error-state" role="alert"><h3>No se pudo abrir la base local</h3><p>Cerrá otras pestañas de pilecontrol y volvé a abrir. Si usás modo privado de Safari, salí de ese modo.</p></div>';
+      '<div class="error-state" role="alert"><h3>No se pudo abrir la base local</h3><p>Cerrá otras pestañas de Pulcro Piletas y volvé a abrir. Si usás modo privado de Safari, salí de ese modo.</p></div>';
     return;
   }
   requestPersistence();

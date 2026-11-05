@@ -1,6 +1,6 @@
 {
-  "name": "pilecontrol",
-  "short_name": "pilecontrol",
+  "name": "Pulcro Piletas",
+  "short_name": "Pulcro Piletas",
   "description": "Gestión de mantenimiento de piletas: visitas, agenda, clientes, química y stock.",
   "id": "./",
   "start_url": "./#/inicio",
@@ -9,7 +9,7 @@
   "orientation": "portrait",
   "lang": "es-AR",
   "background_color": "#0084B9",
-  "theme_color": "#192F41",
+  "theme_color": "#0084B9",
   "icons": [
     { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },

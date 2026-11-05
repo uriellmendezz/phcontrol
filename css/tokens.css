@@ -1,26 +1,30 @@
 /* =========================================================
-   pilecontrol · Design tokens
-   Para cambiar de marca, editá SOLO este archivo.
-   Paleta activa: kit v2 (Navy / Steel Blue / Grade / White).
-   Paleta alternativa "celeste y arena": agregá class="paleta-arena"
-   al <html> (ver al final). No está activa por defecto.
+   Pulcro Piletas · Design tokens
+   Colores y tipografía de la marca (kit de marca v3).
+   Azul Piscina como fondo principal, blanco puro encima,
+   formas redondeadas y ondas suaves.
    ========================================================= */
 
 /* ---------- Tipografía (archivos locales, offline) ---------- */
 @font-face { font-family: "Hurme Geometric Sans 4"; src: url("../assets/fonts/HurmeGeometricSans4-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: "Hurme Geometric Sans 4"; src: url("../assets/fonts/HurmeGeometricSans4-SemiBold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
 @font-face { font-family: "Hurme Geometric Sans 4"; src: url("../assets/fonts/HurmeGeometricSans4-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
-/* Fallback libre (OFL): Outfit variable, también local */
+/* Títulos: Comfortaa variable (OFL), redondeada como el logo */
+@font-face { font-family: "Comfortaa"; src: url("../assets/fonts/Comfortaa-Variable.woff2") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
+/* Cuerpo, respaldo libre (OFL): Outfit variable, también local */
 @font-face { font-family: "Outfit"; src: url("../assets/fonts/Outfit-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
 
 :root {
-  /* Marca (kit v2 oficial) */
+  /* Marca (kit v3 oficial) */
   --brand-navy: #192F41;
   --brand-steel: #68CBDE;
   --brand-grade: #CDDEEC;
   --brand-white: #FFFFFF;
-  --brand-blue: #0084B9;    /* color principal de la marca (fondo del logo) */
+  --brand-blue: #0084B9;    /* Azul Piscina: color principal de la marca */
+  --brand-blue-light: #1496CA;
+  --brand-gradient: linear-gradient(100deg, var(--brand-blue), var(--brand-blue-light));
   --brand-logo-bg: var(--brand-blue);
+  --header-bg: var(--brand-gradient);
 
   /* Semánticos derivados (ok / atención / peligro) */
   --ok: #1E8C7E;          /* verde azulado */
@@ -53,8 +57,6 @@
   --scrim: rgba(25, 47, 65, .45);
   --toast-bg: var(--brand-navy);
   --toast-fg: var(--brand-white);
-  --logo-on-light: block;  /* logo Navy sobre White/Grade */
-  --logo-on-dark: none;    /* logo blanco sobre Navy */
 
   /* Calendario: estados */
   --st-pendiente: var(--brand-blue);
@@ -70,6 +72,11 @@
 
   /* Tipografía */
   --font: "Hurme Geometric Sans 4", "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Comfortaa", var(--font);
+  /* Comfortaa no es muy gruesa: títulos y palabras destacadas llevan un trazo del color del texto.
+     Se expresa en em para que acompañe el tamaño de cada título. */
+  --stroke-title: .03em;
+  --stroke-soft: .018em;
   --fs-xs: .75rem;
   --fs-sm: .875rem;
   --fs-md: 1rem;
@@ -77,7 +84,9 @@
   --fs-xl: 1.375rem;
   --fs-2xl: 1.75rem;
   --fs-3xl: 2.25rem;
+  --fw-light: 300;
   --fw-regular: 400;
+  --fw-medium: 500;
   --fw-semibold: 600;
   --fw-bold: 700;
   --lh-tight: 1.15;
@@ -137,19 +146,5 @@
   --scrim: rgba(0, 0, 0, .55);
   --toast-bg: var(--brand-white);
   --toast-fg: var(--brand-navy);
-  --logo-on-light: none;
-  --logo-on-dark: block;
-}
-
-/* ---------- Paleta alternativa "celeste y arena" (NO activa) ---------- */
-html.paleta-arena {
-  --brand-navy: #1F3A4B;
-  --brand-steel: #7FC6DF;
-  --brand-grade: #BFE4F2;
-  --bg: #F4EDE2;
-  --surface-2: #EFE6D6;
-  --border: #E4D7C1;
-  --accent-strong: #3D93B3;
-  --warn: #8C6E46;
-  --chart-3: #D9C3A0;
+  --header-bg: var(--brand-navy);
 }

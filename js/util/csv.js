@@ -25,7 +25,7 @@ export async function exportFiles() {
   const files = [];
   for (const [entity, def] of Object.entries(ENTITIES)) {
     const text = await entityCSV(entity);
-    files.push(new File([text], `pilecontrol_${def.sheet}_${today()}.csv`, { type: 'text/csv' }));
+    files.push(new File([text], `pulcropiletas_${def.sheet}_${today()}.csv`, { type: 'text/csv' }));
   }
   return files;
 }
