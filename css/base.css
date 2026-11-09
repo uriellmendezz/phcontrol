@@ -71,13 +71,8 @@ p { margin: 0; }
   background: var(--header-bg);
   color: var(--brand-white);
 }
-/* Onda al pie de la barra superior */
-.app-header::after {
-  content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 10px; pointer-events: none;
-  background: var(--header-bg);
-  -webkit-mask: url("../assets/img/onda-borde.svg") center / 100% 100% no-repeat;
-  mask: url("../assets/img/onda-borde.svg") center / 100% 100% no-repeat;
-}
+/* Borde inferior recto: una línea fina delimita la barra del contenido */
+.app-header { box-shadow: 0 1px 0 var(--header-line); }
 .app-header .icon-btn { color: var(--brand-white); }
 .app-header .icon-btn:active { background: rgba(255, 255, 255, .18); }
 .app-header :focus-visible { outline-color: var(--brand-white); }

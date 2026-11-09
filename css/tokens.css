@@ -1,8 +1,8 @@
 /* =========================================================
    Pulcro Piletas · Design tokens
    Colores y tipografía de la marca (kit de marca v3).
-   Azul Piscina como fondo principal, blanco puro encima,
-   formas redondeadas y ondas suaves.
+   Azul Piscina (#018EE4) como fondo principal, blanco puro encima,
+   formas redondeadas y bordes rectos y prolijos.
    ========================================================= */
 
 /* ---------- Tipografía (archivos locales, offline) ---------- */
@@ -10,10 +10,14 @@
 @font-face { font-family: "Hurme Geometric Sans 4"; src: url("../assets/fonts/HurmeGeometricSans4-SemiBold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
 @font-face { font-family: "Hurme Geometric Sans 4"; src: url("../assets/fonts/HurmeGeometricSans4-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
 /* Números: siempre Hurme Geometric Sans 4 Bold, a cualquier peso (solo dígitos, por unicode-range).
+   Sin local(): el archivo del repo viene ensanchado al 106 % y la versión instalada no.
    El archivo trae solo los dígitos. */
-@font-face { font-family: "Numeros Pulcro"; src: local("Hurme Geometric Sans 4 Bold"), local("HurmeGeometricSans4-Bold"), url("../assets/fonts/HurmeGeometricSans4-Bold-numeros.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; unicode-range: U+30-39; }
-/* Títulos: Comfortaa variable (OFL), redondeada como el logo */
-@font-face { font-family: "Comfortaa"; src: url("../assets/fonts/Comfortaa-Variable.woff2") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Numeros Pulcro"; src: url("../assets/fonts/HurmeGeometricSans4-Bold-numeros.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; unicode-range: U+30-39; }
+/* Fuente principal de la marca: Petrov Sans (títulos, botones y cuerpo).
+   Los archivos están ensanchados al 106 % en horizontal (escala horizontal de la marca). */
+@font-face { font-family: "Petrov Sans"; src: url("../assets/fonts/PetrovSans-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Petrov Sans"; src: url("../assets/fonts/PetrovSans-SemiBold.woff2") format("woff2"); font-weight: 500 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Petrov Sans"; src: url("../assets/fonts/PetrovSans-Bold.woff2") format("woff2"); font-weight: 700 900; font-style: normal; font-display: swap; }
 /* Cuerpo, respaldo libre (OFL): Outfit variable, también local */
 @font-face { font-family: "Outfit"; src: url("../assets/fonts/Outfit-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
 
@@ -23,11 +27,12 @@
   --brand-steel: #68CBDE;
   --brand-grade: #CDDEEC;
   --brand-white: #FFFFFF;
-  --brand-blue: #0084B9;    /* Azul Piscina: color principal de la marca */
-  --brand-blue-light: #1496CA;
+  --brand-blue: #018EE4;    /* Azul Piscina: color principal de la marca */
+  --brand-blue-light: #1AA0F0;
   --brand-gradient: linear-gradient(100deg, var(--brand-blue), var(--brand-blue-light));
   --brand-logo-bg: var(--brand-blue);
   --header-bg: var(--brand-gradient);
+  --header-line: rgba(25, 47, 65, .14); /* línea recta bajo la barra superior */
 
   /* Semánticos derivados (ok / atención / peligro) */
   --ok: #1E8C7E;          /* verde azulado */
@@ -37,7 +42,7 @@
   --danger: #C2413B;      /* rojo suave */
   --danger-soft: #F9E1DF;
   --info: var(--brand-blue);
-  --info-soft: #E2F1F8;
+  --info-soft: #E1F1FC;
 
   color-scheme: light; /* controles nativos (fecha, hora) en claro aunque el iPhone esté en oscuro */
 
@@ -74,13 +79,12 @@
   --chart-grid: #E4ECF3;
 
   /* Tipografía */
-  --font: "Numeros Pulcro", "Hurme Geometric Sans 4", "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Numeros Pulcro", "Comfortaa", var(--font);
-  --tracking: -.05em; /* interletrado -50 de la marca, en todos los textos */
-  /* Comfortaa no es muy gruesa: títulos y palabras destacadas llevan un trazo del color del texto.
-     Se expresa en em para que acompañe el tamaño de cada título. */
-  --stroke-title: .03em;
-  --stroke-soft: .018em;
+  --font: "Numeros Pulcro", "Petrov Sans", "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font);
+  --tracking: 0; /* interletrado 0 de la marca. La escala horizontal 106 % ya viene en los archivos de fuente */
+  /* Trazo extra en títulos: era para Comfortaa (fina). Petrov Sans ya tiene Bold real, así que va en 0. */
+  --stroke-title: 0;
+  --stroke-soft: 0;
   --fs-xs: .75rem;
   --fs-sm: .875rem;
   --fs-md: 1rem;
@@ -134,10 +138,10 @@
   --text: var(--brand-white);
   --text-2: #C4D5E3;
   --text-3: #93A9BA;
-  --accent-strong: var(--brand-steel); /* #0084B9 sobre Navy no tiene contraste para texto */
+  --accent-strong: var(--brand-steel); /* #018EE4 sobre Navy no tiene contraste para texto */
   --primary: var(--brand-blue);
   --primary-ink: var(--brand-white);
-  --chart-1: #2BA3D6;
+  --chart-1: #3AAAF0;
   --ok: #4FC3B0; --ok-soft: rgba(79, 195, 176, .16);
   --warn: #F0B54A; --warn-soft: rgba(240, 181, 74, .16);
   --danger: #F08079; --danger-soft: rgba(240, 128, 121, .16);
@@ -151,4 +155,5 @@
   --toast-bg: var(--brand-white);
   --toast-fg: var(--brand-navy);
   --header-bg: var(--brand-navy);
+  --header-line: var(--border);
 }

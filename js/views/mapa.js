@@ -12,7 +12,7 @@ import { currentPosition } from '../util/geo.js';
 import { toast } from '../ui/toast.js';
 import { fullName, mapsHref, money, relDay } from '../util/format.js';
 
-const COLORS = { activo: '#0084B9', borrador: '#E0A33B', inactivo: '#9AA8B4' };
+const COLORS = { activo: '#018EE4', borrador: '#E0A33B', inactivo: '#9AA8B4' };
 const hasGeo = (c) => c.lat !== '' && c.lng !== '' && c.lat != null && c.lng != null && !isNaN(c.lat) && !isNaN(c.lng);
 
 export default async function mapa(root, ctx) {

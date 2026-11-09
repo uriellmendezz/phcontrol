@@ -6,7 +6,7 @@
  * - Apps Script: nunca se cachea (los datos viven en IndexedDB).
  * Al publicar cambios, subí VERSION para que los iPhones reciban la actualización.
  */
-const VERSION = 'v2.0.3';
+const VERSION = 'v2.1.1';
 // El prefijo "phcontrol-" es histórico: se mantiene para que la limpieza borre las cachés viejas.
 const SHELL = `phcontrol-shell-${VERSION}`;
 const RUNTIME = 'phcontrol-runtime';
@@ -80,8 +80,9 @@ const ASSETS = [
   './assets/img/ondas.svg',
   './assets/img/ondas-lineas.svg',
   './assets/img/onda-suave.svg',
-  './assets/img/onda-borde.svg',
-  './assets/fonts/Comfortaa-Variable.woff2',
+  './assets/fonts/PetrovSans-Regular.woff2',
+  './assets/fonts/PetrovSans-SemiBold.woff2',
+  './assets/fonts/PetrovSans-Bold.woff2',
   './assets/fonts/HurmeGeometricSans4-Bold-numeros.woff2'
 ];
 

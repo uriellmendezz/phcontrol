@@ -191,7 +191,7 @@
   width: 1080px; background: #FFFFFF; color: #192F41;
   font-family: var(--font); letter-spacing: var(--tracking); font-size: 30px; line-height: 1.35;
 }
-.sc-head { position: relative; background-color: #0084B9; background-size: 100% auto; background-position: center bottom; color: #fff; }
+.sc-head { position: relative; background-color: #018EE4; background-size: 100% auto; background-position: center bottom; color: #fff; }
 .sc-head-inner { position: relative; padding: 44px 72px 76px; }
 .sc-kicker { font-size: 26px; font-weight: 600; text-transform: uppercase; opacity: .95; }
 .sc-title { font-family: var(--font-display); font-size: 58px; font-weight: 700; line-height: 1.1; margin-top: 8px; -webkit-text-stroke: 1.8px currentColor; }
@@ -222,7 +222,7 @@
 .sc-list li span:first-child { flex: 1 1 0; min-width: 0; overflow: hidden; }
 .sc-list li span:last-child { font-weight: 700; flex: none; }
 .sc-obs { font-size: 28px; white-space: pre-wrap; }
-.sc-foot { margin-top: auto; flex: none; padding: 40px 72px 48px; background: linear-gradient(100deg, #0084B9, #1496CA); color: #fff; font-size: 26px; display: flex; align-items: center; gap: 40px; }
+.sc-foot { margin-top: auto; flex: none; padding: 40px 72px 48px; background: linear-gradient(100deg, #018EE4, #1AA0F0); color: #fff; font-size: 26px; display: flex; align-items: center; gap: 40px; }
 .sc-foot-logo { width: 250px; height: auto; flex: none; }
 .sc-foot-text { min-width: 0; }
 .sc-lema { color: #FFFFFF; font-weight: 600; margin-top: 6px; }
@@ -240,7 +240,7 @@
 .map-pop { display: grid; gap: 4px; font-family: var(--font); font-size: 14px; color: #192F41; }
 .map-pop strong { font-size: 16px; }
 .map-pop-actions { display: flex; gap: 16px; margin-top: 6px; }
-.map-pop-actions a { color: #0084B9; font-weight: 700; text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
+.map-pop-actions a { color: #018EE4; font-weight: 700; text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
 .leaflet-container { font-family: var(--font); }
 
 /* ---------- Ingreso ---------- */

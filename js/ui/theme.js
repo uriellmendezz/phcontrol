@@ -16,7 +16,7 @@ function apply() {
   const pref = getThemePref();
   const dark = pref === 'dark' || (pref === 'auto' && mq.matches);
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  document.getElementById('meta-theme')?.setAttribute('content', dark ? '#192F41' : '#0084B9');
+  document.getElementById('meta-theme')?.setAttribute('content', dark ? '#192F41' : '#018EE4');
   window.dispatchEvent(new CustomEvent('themechange', { detail: { dark } }));
 }
 

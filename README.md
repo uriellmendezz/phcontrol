@@ -27,7 +27,7 @@ phcontrol/
 │   ├── icons/                 180, 192, 512 y maskable (isotipo sobre azul)
 │   ├── splash/                Pantallas de inicio iOS
 │   ├── img/ondas.svg          Patrón de agua (inicio y tarjeta exportable)
-│   └── fonts/                 Comfortaa / Hurme / Outfit (ver assets/fonts/LEEME.md)
+│   └── fonts/                 Petrov Sans / Hurme (números) / Outfit (ver assets/fonts/LEEME.md)
 ├── css/
 │   ├── tokens.css             ← Marca: colores, tipografía, espaciados (cambiar paleta acá)
 │   ├── base.css               Reset, layout, header, tabbar, safe areas
@@ -171,7 +171,7 @@ Antes del primer push, revisá con `git status` que **no** aparezcan `Entregas/`
 
 **Instalación**
 - [ ] Safari → `https://TU-USUARIO.github.io/phcontrol/` → Compartir → **Añadir a pantalla de inicio**.
-- [ ] El ícono es el logo sobre azul `#0084B9` y el nombre "Pulcro Piletas".
+- [ ] El ícono es el logo sobre azul `#018EE4` y el nombre "Pulcro Piletas".
 - [ ] Al abrir se ve la pantalla de inicio azul con el logo y luego la app a pantalla completa (sin barra de Safari).
 
 **Safe areas y layout**
